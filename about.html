@@ -8,22 +8,44 @@
   <style>
     :root {
       --bg-primary: #0b0a1a;
+      --bg-secondary: #0f0e24;
       --text-primary: #eae8ff;
       --text-accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.3);
       --border-subtle: rgba(255, 255, 255, 0.08);
+      --card-bg: rgba(255, 255, 255, 0.03);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0
+      padding: 0;
+      font-family: 'Orbitron', sans-serif !important;
     }
 
     body {
-      font-family: Inter, system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      min-height: 100vh
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Cyber-mesh Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
     }
 
     .top-tab-container {
@@ -34,257 +56,220 @@
       z-index: 9999;
       width: 100%;
       padding: 0 20px;
-      pointer-events: none
+      pointer-events: none;
     }
 
     .top-glass-tab {
       pointer-events: auto;
-      /* transparent container so only individual tab buttons show */
       background: transparent;
-      backdrop-filter: none;
-      border: none;
-      color: var(--text-primary);
-      padding: 0;
-      border-radius: 0;
-      font-size: .95rem;
-      font-weight: 600;
       display: flex;
       gap: 10px;
       max-width: 980px;
       width: min(980px, 96%);
       align-items: center;
       justify-content: center;
-      margin: 0 auto
+      margin: 0 auto;
     }
 
     .top-glass-tab .tab-btn {
       background: transparent;
       border: none;
       color: var(--text-primary);
-      padding: 8px 14px;
+      padding: 8px 18px;
       border-radius: 999px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      pointer-events: auto;
-    }
-
-    .top-glass-tab .tab-btn {
-      text-decoration: none !important;
-      -webkit-text-decoration: none !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
     }
 
     .top-glass-tab .tab-btn:hover {
-      background: rgba(56, 189, 248, 0.06);
-      transform: translateY(-2px)
+      background: rgba(56, 189, 248, 0.1);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
     }
 
     .top-glass-tab .tab-btn.active {
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
-      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+      background: rgba(56, 189, 248, 0.15);
       color: var(--text-accent);
-      transform: translateY(-2px) scale(1.02)
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    .social-bar {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-      align-items: flex-end;
+    .content-wrapper {
+      max-width: 1100px;
+      margin: 120px auto 60px;
+      padding: 0 24px;
     }
 
-    .social-btn {
-      width: 44px;
-      height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    .social-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
-      background: rgba(56, 189, 248, 0.06);
-    }
-
-    .social-btn svg {
-      width: 20px;
-      height: 20px;
-      display: block;
-      shape-rendering: geometricPrecision;
-    }
-
-    .left-controls {
-      position: fixed;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-      align-items: flex-start;
-    }
-
-    .icon-btn {
-      width: 44px;
-      height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    .icon-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
-      background: rgba(56, 189, 248, 0.06);
-    }
-
-    .icon-btn.active {
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
-      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
-      color: var(--text-accent);
-      transform: translateY(-2px) scale(1.02)
-    }
-
-    .icon-btn svg {
-      width: 20px;
-      height: 20px;
-      display: block;
-      shape-rendering: geometricPrecision;
-    }
-
-    /* Slanted Sign In Button */
-    .top-right-controls {
-      position: fixed;
-      top: 16px;
-      right: 18px;
-      z-index: 10001;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      pointer-events: auto;
-    }
-
-    .signin-btn {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
-      padding: 10px 32px;
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 15px;
-      cursor: pointer;
-      clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .signin-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: scale(1.06) skew(-2deg);
-      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    @media (max-width: 880px) {
-      .top-right-controls {
-        top: 10px;
-        right: 10px;
-      }
-
-      .signin-btn {
-        padding: 8px 24px;
-        font-size: 13px;
-      }
-    }
-
-    .hero-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      min-height: 100vh
-    }
-
-    .card {
-      max-width: 980px;
-      background: transparent;
+    .hero-box {
       text-align: center;
-      padding: 32px;
-      border-radius: 12px
+      margin-bottom: 80px;
     }
 
-    .card h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 12px
+    .hero-box h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 900;
+      background: linear-gradient(to bottom, #fff, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+      text-transform: uppercase;
     }
 
-    .card p {
-      color: var(--text-primary);
-      opacity: .9
+    .hero-box p {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.8;
+      font-weight: 400;
     }
 
-    .btn-back {
-      display: inline-block;
-      margin-top: 18px;
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-bottom: 100px;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      padding: 40px;
+      border-radius: 24px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-card:hover::before {
+      opacity: 1;
+    }
+
+    .info-card h3 {
+      font-size: 1.5rem;
       color: var(--text-accent);
-      text-decoration: underline
+      margin-bottom: 16px;
+      text-transform: uppercase;
     }
 
+    .info-card p {
+      opacity: 0.75;
+      line-height: 1.7;
+    }
+
+    /* Team Section */
+    .team-section {
+      margin-top: 120px;
+      text-align: center;
+    }
+
+    .team-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 48px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .member-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      padding: 32px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .member-card.leader {
+      border: 2px solid var(--text-accent);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), transparent);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
+    }
+
+    .member-card.leader::after {
+      content: "LEAD";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-accent);
+      color: #000;
+      padding: 2px 12px;
+      font-size: 0.7rem;
+      font-weight: 900;
+      border-radius: 4px;
+    }
+
+    .member-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(56, 189, 248, 0.3);
+      transform: scale(1.02);
+    }
+
+    .member-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .member-role {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
     @media (max-width: 640px) {
-      .left-controls {
-        display: none !important;
+      .hero-box h1 {
+        font-size: 2.5rem;
       }
 
-      .social-bar {
-        right: 12px;
-        top: auto;
-        bottom: 12px;
-        transform: none;
-        flex-direction: row;
-        gap: 8px;
-        align-items: center;
+      .content-wrapper {
+        margin-top: 100px;
       }
 
-      .social-btn,
-      .icon-btn {
-        width: 36px;
-        height: 36px;
+      .info-card {
+        padding: 30px;
       }
 
-      .move-home {
-        display: none !important;
+      .top-glass-tab {
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+
+      .top-glass-tab .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -293,118 +278,69 @@
 <body>
   <div class="top-tab-container">
     <div class="top-glass-tab">
-      <a class="tab-btn" href="/event">Event</a>
-      <a class="tab-btn" href="/competition">Competition</a>
-      <a class="tab-btn" href="/workshop">Workshop</a>
+      <a class="tab-btn" href="/">Home</a>
+      <a class="tab-btn" href="/event">Events</a>
+      <a class="tab-btn" href="/competition">Competitions</a>
+      <a class="tab-btn" href="/workshop">Workshops</a>
       <a class="tab-btn" href="/stalls">Stalls</a>
-      <a class="tab-btn" href="/sponsors">Sponsors</a>
+      <a class="tab-btn active" href="/about">About</a>
     </div>
   </div>
 
-  <!-- Auth nav injected dynamically by auth-nav.js -->
+  <div class="content-wrapper">
+    <section class="hero-box">
+      <h1>Infinitus</h1>
+      <p>
+        SRM AP's flagship techno-management odyssey. Where the boundary between digital imagination and physical reality
+        fades away.
+      </p>
+    </section>
 
-  <!-- Left side controls (Home, About, Stalls, Sponsors) -->
-  <div class="left-controls" aria-hidden="false">
-    <a class="icon-btn" href="/" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/sponsors" aria-label="Sponsors" title="Our Sponsors">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <polygon
-          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/stalls" aria-label="Stalls" title="Visit Stalls">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-        <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-        <path d="M12 3v6" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/faq" aria-label="FAQ" title="FAQ">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 12.9 12 13.5 12 15h-2v-.5c0-1 .45-1.75 1.17-2.5l1.24-1.26A1.75 1.75 0 0012.5 8.5c0-.97.78-1.75 1.75-1.75S16 7.53 16 8.5c0 1.2-.5 1.99-1.93 2.99z" />
-      </svg>
-    </a>
-    <a class="icon-btn active" href="/about" aria-label="About" title="About">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-      </svg>
-    </a>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Innovation</h3>
+        <p>A global stage for revolutionary ideas. From robotics to quantum computing, witness projects that move the
+          needle of human progress.</p>
+      </div>
+      <div class="info-card">
+        <h3>Competition</h3>
+        <p>Battle-tested grounds for the brightest minds. High-stakes hackathons, coding sprints, and management
+          challenges with global recognition.</p>
+      </div>
+      <div class="info-card">
+        <h3>Synergy</h3>
+        <p>Connecting the nodes of the professional world. Networking with industry leaders, alumni mentors, and
+          visionary tech giants.</p>
+      </div>
+    </div>
+
+    <section class="team-section">
+      <div class="team-header">
+        <h2>ZeroMercy</h2>
+      </div>
+      <div class="team-grid">
+        <div class="member-card leader">
+          <div class="member-name">Saksham Garg</div>
+          <div class="member-role">Architecture & Strategy</div>
+        </div>
+        <div class="member-card">
+          <div class="member-name">Hardik Chaurasia</div>
+          <div class="member-role">Core Development</div>
+        </div>
+        <div class="member-card">
+          <div class="member-name">Sujal Kansal</div>
+          <div class="member-role">Experience Design</div>
+        </div>
+        <div class="member-card">
+          <div class="member-name">Arjun Sharma</div>
+          <div class="member-role">Systems Logic</div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- Social nav injected dynamically by auth-nav.js -->
 
-  <section id="about" style="padding:96px 24px 48px;">
-    <div class="card" style="max-width:980px;margin: 0 auto; text-align: center;">
-      <h1 style="font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:24px;letter-spacing:1px;color:var(--text-accent)">
-        ABOUT INFINITUS</h1>
-      <p style="max-width: 800px; margin: 0 auto 48px; line-height: 1.8; opacity: 0.9; font-size: 1.1rem;">
-        Infinitus is SRM AP’s premier science and technology fest—a convergence of innovation, competition, and
-        collaboration.
-        Through high-impact events, challenges, and workshops, Infinitus empowers students to explore ideas, build
-        solutions,
-        and shape the future of technology.
-      </p>
-
-      <div
-        style="margin-top: 60px; padding: 40px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px solid var(--border-subtle); backdrop-filter: blur(10px);">
-        <h2
-          style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 24px; text-transform: uppercase; color: #fff; text-shadow: 0 0 30px rgba(56,189,248,0.3);">
-          ZeroMercy
-        </h2>
-        <p
-          style="color: var(--text-accent); font-weight: 600; letter-spacing: 2px; margin-bottom: 32px; text-transform: uppercase; font-size: 0.9rem;">
-          Our Team
-        </p>
-
-        <div
-          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto;">
-          <!-- Team Leader: Saksham Garg -->
-          <div
-            style="padding: 24px; border-radius: 16px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.1)); border: 2px solid var(--text-accent); box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); transform: scale(1.05); position: relative;">
-            <div
-              style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--text-accent); color: #000; padding: 4px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-              Team Leader</div>
-            <div style="font-weight: 800; font-size: 1.2rem; margin-top: 4px;">Saksham Garg</div>
-          </div>
-          <div
-            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-            <div style="font-weight: 700; font-size: 1.1rem;">Hardik Chaurasia</div>
-          </div>
-          <div
-            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-            <div style="font-weight: 700; font-size: 1.1rem;">Sujal Kansal</div>
-          </div>
-          <div
-            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-            <div style="font-weight: 700; font-size: 1.1rem;">Arjun Sharma</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <script>
-    (function setActiveNav() {
-      const items = document.querySelectorAll('.top-glass-tab .tab-btn');
-      const path = location.pathname.replace(/\/+/g, '/');
-      items.forEach(a => {
-        try {
-          const hrefPath = new URL(a.href).pathname.replace(/\/+/g, '/');
-          if (hrefPath === path) a.classList.add('active');
-        } catch (e) { }
-      });
-    })();
-  </script>
-
-  <!-- Move to homepage link (lower-right) -->
-  <!-- Move-to-home removed; Home icon available in left-controls -->
-  <!-- Auth System -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth-nav.js"></script>
 </body>
