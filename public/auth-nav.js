@@ -154,6 +154,17 @@
 
   // Render social media bar dynamically
   function renderSocialBar() {
+    const isHomepage = window.location.pathname === '/' ||
+      window.location.pathname.endsWith('index.html') ||
+      window.location.pathname.endsWith('video-hero.html');
+
+    if (!isHomepage) {
+      // Remove social bar if not on homepage
+      const existingBar = document.querySelector('.social-bar');
+      if (existingBar) existingBar.remove();
+      return;
+    }
+
     let bar = document.querySelector('.social-bar');
     if (!bar) {
       bar = document.createElement('div');
