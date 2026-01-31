@@ -4,26 +4,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Competition — Infinitus</title>
+  <title>Competitions — Infinitus</title>
   <style>
     :root {
       --bg-primary: #0b0a1a;
       --text-primary: #eae8ff;
       --text-accent: #38bdf8;
       --border-subtle: rgba(255, 255, 255, 0.08);
+      --top-offset: 120px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0
+      padding: 0;
+      font-family: 'Orbitron', sans-serif !important;
     }
 
     body {
-      font-family: Inter, system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      min-height: 100vh
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Cyber-mesh Background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
     }
 
     .top-tab-container {
@@ -34,459 +54,215 @@
       z-index: 9999;
       width: 100%;
       padding: 0 20px;
-      pointer-events: none
+      pointer-events: none;
     }
 
     .top-glass-tab {
       pointer-events: auto;
-      /* transparent container so only individual tab buttons show */
       background: transparent;
-      backdrop-filter: none;
-      border: none;
-      color: var(--text-primary);
-      padding: 0;
-      border-radius: 0;
-      font-size: .95rem;
-      font-weight: 600;
       display: flex;
-      gap: 10px;
-      max-width: 980px;
-      width: min(980px, 96%);
+      gap: 12px;
+      max-width: 1000px;
+      width: min(1000px, 96%);
       align-items: center;
       justify-content: center;
-      margin: 0 auto
+      margin: 0 auto;
     }
 
     .top-glass-tab .tab-btn {
       background: transparent;
       border: none;
       color: var(--text-primary);
-      padding: 8px 14px;
+      padding: 10px 20px;
       border-radius: 999px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      pointer-events: auto;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .top-glass-tab .tab-btn {
-      text-decoration: none !important;
-      -webkit-text-decoration: none !important;
+    .top-glass-tab .tab-btn svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    .top-glass-tab .tab-btn:hover svg {
+      opacity: 1;
     }
 
     .top-glass-tab .tab-btn:hover {
-      background: rgba(56, 189, 248, 0.06);
-      transform: translateY(-2px)
+      background: rgba(56, 189, 248, 0.1);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
     }
 
     .top-glass-tab .tab-btn.active {
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
-      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+      background: rgba(56, 189, 248, 0.15);
       color: var(--text-accent);
-      transform: translateY(-2px) scale(1.02)
+      border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    .social-bar {
-      position: fixed;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-      align-items: flex-end;
+    /* Content Layout */
+    .content-wrapper {
+      max-width: 1240px;
+      margin: var(--top-offset) auto 80px;
+      padding: 0 32px;
     }
 
-    .social-btn {
-      width: 44px;
-      height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    .social-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
-      background: rgba(56, 189, 248, 0.06);
-    }
-
-    .social-btn svg {
-      width: 20px;
-      height: 20px;
-      display: block;
-      shape-rendering: geometricPrecision;
-    }
-
-    .left-controls {
-      /* vertically center on left side */
-      position: fixed;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
-      z-index: 10001;
-    }
-
-    .icon-btn {
-      width: 44px;
-      height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    .icon-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
-      background: rgba(56, 189, 248, 0.06);
-    }
-
-    .icon-btn svg {
-      width: 20px;
-      height: 20px
-    }
-
-    /* Slanted Sign In Button */
-    .top-right-controls {
-      position: fixed;
-      top: 16px;
-      right: 18px;
-      z-index: 10001;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      pointer-events: auto;
-    }
-
-    .signin-btn {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: white;
-      padding: 10px 32px;
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-size: 15px;
-      cursor: pointer;
-      clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .signin-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: scale(1.06) skew(-2deg);
-      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    @media (max-width: 880px) {
-      .top-right-controls {
-        top: 10px;
-        right: 10px;
-      }
-
-      .signin-btn {
-        padding: 8px 24px;
-        font-size: 13px;
-      }
-    }
-
-    .hero-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      min-height: 100vh
-    }
-
-    .card {
-      max-width: 980px;
-      background: transparent;
+    .header-box {
       text-align: center;
-      padding: 32px;
-      border-radius: 12px
+      margin-bottom: 60px;
     }
 
-    .card h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 12px
+    .header-box h1 {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 900;
+      background: linear-gradient(to bottom, #fff, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
     }
 
-    .card p {
-      color: var(--text-primary);
-      opacity: .9
+    .header-box p {
+      font-size: 1.1rem;
+      opacity: 0.7;
+      max-width: 600px;
+      margin: 0 auto;
+      letter-spacing: 1px;
     }
 
-    .btn-back {
-      display: inline-block;
-      margin-top: 18px;
-      color: var(--text-accent);
-      text-decoration: underline
+    /* Grid Layout */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
     }
-  </style>
-  <script type="module" src="/src/static-registration.ts"></script>
-</head>
 
-<body>
-  <div class="top-tab-container">
-    <div class="top-glass-tab">
-      <a class="tab-btn" href="/event">Event</a>
-      <a class="tab-btn" href="/competition">Competition</a>
-      <a class="tab-btn" href="/workshop">Workshop</a>
-    </div>
-  </div>
-
-  <!-- Auth nav injected dynamically by auth-nav.js -->
-
-  <!-- Left side controls (Home, About, Stalls, Sponsors) -->
-  <div class="left-controls" aria-hidden="false">
-    <a class="icon-btn" href="/" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/sponsors" aria-label="Sponsors" title="Our Sponsors">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <polygon
-          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/stalls" aria-label="Stalls" title="Visit Stalls">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-        <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-        <path d="M12 3v6" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/faq" aria-label="FAQ" title="FAQ">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 12.9 12 13.5 12 15h-2v-.5c0-1 .45-1.75 1.17-2.5l1.24-1.26A1.75 1.75 0 0012.5 8.5c0-.97.78-1.75 1.75-1.75S16 7.53 16 8.5c0 1.2-.5 1.99-1.93 2.99z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="/about" aria-label="About" title="About">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-      </svg>
-    </a>
-  </div>
-
-  <!-- Social nav injected dynamically by auth-nav.js -->
-
-  <section id="competitions" style="padding:96px 24px 48px;">
-    <div style="max-width:980px;margin:0 auto;color:var(--text-primary)">
-      <h2 style="font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:24px;text-align:center;letter-spacing:1px">
-        COMPETITIONS</h2>
-      <div id="competitions-grid"
-        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px"></div>
-    </div>
-  </section>
-
-  <!-- Timeline Section -->
-  <section id="timeline" style="padding:60px 24px; background: rgba(255,255,255,0.02);">
-    <div style="max-width:900px; margin:0 auto;">
-      <h2 style="text-align:center; font-size:clamp(1.8rem,4vw,2.5rem); margin-bottom:40px; color:var(--text-accent);">
-        Competition Timeline</h2>
-
-      <div class="timeline-container">
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">Feb 24</div>
-          <div class="timeline-content">
-            <h3>Day 1: HackSRM 7.0 Kickoff</h3>
-            <p>Inauguration ceremony followed by the HackSRM 7.0 kickoff. Theme announcement and team registrations.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">Feb 25</div>
-          <div class="timeline-content">
-            <h3>Day 2: Battle & Code</h3>
-            <p>Robo Wars preliminary rounds and the 24-hour National Level Coding Challenge begins.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">Feb 26</div>
-          <div class="timeline-content">
-            <h3>Day 3: Innovation</h3>
-            <p>Circuit Design competition and the HackSRM 7.0 final presentations before the jury.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">Feb 27</div>
-          <div class="timeline-content">
-            <h3>Day 4: Victory</h3>
-            <p>Grand award ceremony, prize distribution, and the celebratory Infinitus closing night.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    (function setActiveNav() {
-      const items = document.querySelectorAll('.top-glass-tab .tab-btn');
-      const path = location.pathname.replace(/\/+/g, '/');
-      items.forEach(a => {
-        try {
-          const hrefPath = new URL(a.href).pathname.replace(/\/+/g, '/');
-          if (hrefPath === path) a.classList.add('active');
-        } catch (e) { }
-      });
-    })();
-
-    const competitions = [
-      {
-        title: 'HackSRM 7.0',
-        image: 'https://picsum.photos/seed/hacksrm/800/600',
-        highlight: true,
-        desc: 'The flagship Hackathon of SRM AP. Join the ultimate 24-hour innovation battle with massive prize pools!'
-      },
-      { title: 'Robo Wars', image: 'https://picsum.photos/seed/robot/800/600' },
-      { title: 'Coding Challenge', image: 'https://picsum.photos/seed/coding/800/600' },
-      { title: 'Circuit Design', image: 'https://picsum.photos/seed/circuit/800/600' }
-    ];
-
-    const grid = document.getElementById('competitions-grid');
-    competitions.forEach((comp, i) => {
-      const cont = document.createElement('div');
-      cont.className = `card-3d-container ${comp.highlight ? 'highlight-card' : ''}`;
-      cont.style.perspective = '1200px';
-      cont.innerHTML = `
-        <div class="card-3d" tabindex="0" style="--z-img:100px; --z-title:50px; --z-desc:30px">
-          ${comp.highlight ? '<div class="f-badge">FLAGSHIP</div>' : ''}
-          <div class="card-face card-media" style="background-image:url('${comp.image}')"></div>
-          <div class="card-face card-body">
-            <div class="card-title">${comp.title}</div>
-            <div class="card-desc">${comp.desc || `Compete in ${comp.title} and win exciting prizes.`}</div>
-            <div class="card-actions"><button class="card-link" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit" onclick="window.openRegistration('${comp.title}')">Register</button></div>
-          </div>
-        </div>
-      `;
-      grid.appendChild(cont);
-    });
-
-    document.addEventListener('mousemove', e => {
-      document.querySelectorAll('.card-3d').forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateZ(0)`;
-      });
-    });
-    document.addEventListener('mouseleave', () => { document.querySelectorAll('.card-3d').forEach(c => c.style.transform = 'none') });
-  </script>
-
-  <!-- Move-to-home removed; Home icon available in left-controls -->
-
-  <style>
     .card-3d-container {
-      height: 340px
+      height: 400px;
+      perspective: 1500px;
+      cursor: pointer;
     }
 
     .card-3d {
       height: 100%;
-      border-radius: 16px;
+      border-radius: 24px;
       overflow: hidden;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform .35s cubic-bezier(.2, .9, .3, 1);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(4px);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      background: rgba(234, 232, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
     }
 
     .card-3d:hover {
-      border-color: rgba(56, 189, 248, 0.3);
-      box-shadow: 0 20px 50px rgba(56, 189, 248, 0.15);
-    }
-
-    .card-face {
-      position: absolute;
-      inset: 0;
-      display: block;
-      backface-visibility: hidden
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 25px 60px rgba(56, 189, 248, 0.2);
     }
 
     .card-media {
+      position: absolute;
+      inset: 0;
       background-size: cover;
       background-position: center;
-      transform: translateZ(var(--z-img));
-      filter: brightness(.95)
+      transform: translateZ(20px);
+      filter: brightness(0.85);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .card-3d:hover .card-media {
+      filter: brightness(0.5) scale(1.05);
     }
 
     .card-body {
-      padding: 24px;
+      position: absolute;
+      inset: 0;
+      padding: 32px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      background: linear-gradient(180deg, rgba(11, 10, 26, 0) 0%, rgba(11, 10, 26, 0.8) 100%);
-      transform: translateZ(50px)
+      background: linear-gradient(0deg, rgba(11, 10, 26, 0.95) 0%, transparent 60%);
+      transform: translateZ(60px);
     }
 
     .card-title {
-      font-weight: 700;
-      font-size: 1.125rem;
-      margin-bottom: 6px;
-      color: var(--text-primary)
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .card-desc {
-      font-size: .9rem;
-      color: rgba(234, 232, 255, .85);
-      margin-bottom: 10px
+      font-size: 0.95rem;
+      color: rgba(234, 232, 255, 0.8);
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
     .card-actions {
       display: flex;
-      justify-content: space-between;
-      align-items: center
+      align-items: center;
     }
 
     .card-link {
       color: var(--text-accent);
-      text-decoration: underline;
-      font-weight: 600
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Timeline Styles */
+    .card-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .card-3d:hover .card-link svg {
+      transform: translateX(5px);
+    }
+
+    /* Highlight badge for flagship */
+    .f-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      background: var(--text-accent);
+      color: var(--bg-primary);
+      font-weight: 800;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      z-index: 100;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 15px var(--text-accent);
+      transform: translateZ(110px);
+    }
+
+    /* Timeline Styles - Preserved & Upgraded */
+    #timeline {
+      padding: 60px 24px;
+      background: rgba(255, 255, 255, 0.01);
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 80px;
+    }
+
     .timeline-container {
       position: relative;
       padding: 20px 0;
@@ -562,12 +338,14 @@
 
     .timeline-content h3 {
       margin-bottom: 8px;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .timeline-content p {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: rgba(234, 232, 255, 0.8);
       line-height: 1.5;
     }
@@ -606,37 +384,300 @@
       }
     }
 
-    /* Highlight Card Styling */
-    .highlight-card .card-3d {
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      background: linear-gradient(180deg, rgba(56, 189, 248, 0.1), rgba(11, 10, 26, 0.8));
-      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
-    }
+    @media (max-width: 640px) {
+      .header-box h1 {
+        font-size: 2rem;
+      }
 
-    .highlight-card .card-title {
-      color: var(--text-accent);
-      font-size: 1.4rem;
-    }
+      .content-wrapper {
+        margin-top: 100px;
+        padding: 0 18px;
+      }
 
-    .f-badge {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      padding: 4px 10px;
-      background: var(--text-accent);
-      color: var(--bg-primary);
-      font-weight: 800;
-      font-size: 0.75rem;
-      border-radius: 6px;
-      z-index: 100;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 15px var(--text-accent);
-      transform: translateZ(110px);
+      .events-grid {
+        gap: 18px;
+      }
+
+      .card-media {
+        height: 140px;
+      }
+
+      .top-glass-tab {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .top-glass-tab .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
     }
   </style>
-  <!-- Auth System -->
+</head>
+
+<body>
+  <div class="top-tab-container">
+    <div class="top-glass-tab">
+      <a class="tab-btn" href="/">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+        Home
+      </a>
+      <a class="tab-btn" href="/event">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        Events
+      </a>
+      <a class="tab-btn active" href="/competition">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+          </polygon>
+        </svg>
+        Competitions
+      </a>
+      <a class="tab-btn" href="/workshop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path
+            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+          </path>
+        </svg>
+        Workshops
+      </a>
+      <a class="tab-btn" href="/stalls">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
+          <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
+          <path d="M12 3v6" />
+        </svg>
+        Stalls
+      </a>
+      <a class="tab-btn" href="/about">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+        </svg>
+        About
+      </a>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="header-box">
+      <h1>Battle Ground</h1>
+      <p>Prove your mettle in high-stakes technical and creative challenges.</p>
+    </div>
+    <div id="react-root"></div>
+  </div>
+
+  <!-- Timeline Section -->
+  <section id="timeline">
+    <div style="max-width:900px; margin:0 auto;">
+      <h2
+        style="text-align:center; font-size:clamp(1.8rem,4vw,2.5rem); margin-bottom:40px; color:var(--text-accent); text-transform:uppercase; letter-spacing:2px;">
+        Competition Timeline</h2>
+
+      <div class="timeline-container">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Feb 24</div>
+          <div class="timeline-content">
+            <h3>HackSRM 7.0 Kickoff</h3>
+            <p>Inauguration ceremony followed by the HackSRM 7.0 kickoff. Theme announcement and team registrations.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Feb 25</div>
+          <div class="timeline-content">
+            <h3>Battle & Code</h3>
+            <p>Robo Wars preliminary rounds and the 24-hour National Level Coding Challenge begins.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Feb 26</div>
+          <div class="timeline-content">
+            <h3>Innovation Showcase</h3>
+            <p>Circuit Design competition and the HackSRM 7.0 final presentations before the jury.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Feb 27</div>
+          <div class="timeline-content">
+            <h3>Grand Finale</h3>
+            <p>Award ceremony, prize distribution, and the celebratory Infinitus closing night.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auth nav injected dynamically by auth-nav.js -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/auth-nav.js"></script>
+
+  <script>
+    (function () {
+      const competitions = [
+        {
+          title: 'HackSRM 7.0',
+          imageSeed: 'hacksrm',
+          highlight: true,
+          details: `
+            <p>The flagship Hackathon of SRM AP. Join the ultimate 24-hour innovation battle where ideas transform into reality. With massive prize pools, industry mentorship, and cutting-edge problem statements.</p>
+            <p>Tracks include AI/ML, Blockchain, IoT, and Open Innovation.</p>
+          `
+        },
+        {
+          title: 'Robo Wars',
+          imageSeed: 'robot',
+          details: `<p>Enter the arena where steel meets steel. Design, build, and control your combat robot to outsmart and destroy the opponent. Categories: Wired, Wireless, and Autonomous.</p>`
+        },
+        {
+          title: 'Coding Challenge',
+          imageSeed: 'coding',
+          details: `<p>A national-level competitive programming contest testing your algorithmic skills and problem-solving speed. Compete against the best coders in the country.</p>`
+        },
+        {
+          title: 'Circuit Design',
+          imageSeed: 'circuit',
+          details: `<p>Put your electronics knowledge to the test. Design complex circuits to solve real-world problems under strict constraints.</p>`
+        }
+      ];
+
+      function openLightbox(imgUrl, title, details) {
+        let lb = document.querySelector('.lightbox');
+        if (!lb) {
+          lb = document.createElement('div');
+          lb.className = 'lightbox';
+          lb.style.cssText = "position:fixed; inset:0; z-index:10002; background:rgba(11,10,26,0.98); display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(20px); opacity:0; transition:opacity 0.4s ease;";
+          lb.innerHTML = `
+            <div class="lb-inner" style="position:relative; width:min(1000px, 95%); background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:32px; display:flex; flex-direction:column; max-height:90vh; overflow:hidden; box-shadow:0 30px 100px rgba(0,0,0,0.8);">
+              <button class="lb-close" style="position:absolute; top:24px; right:24px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:white; width:44px; height:44px; border-radius:50%; cursor:pointer; z-index:10; display:flex; align-items:center; justify-content:center; transition:all 0.3s ease;">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+              <div class="lb-scroll" style="overflow-y:auto; padding:48px;">
+                <div class="lb-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;">
+                  <div class="lb-image-panel">
+                    <img class="lb-img" src="" style="width:100%; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.5);">
+                  </div>
+                  <div class="lb-info-panel">
+                    <h2 class="lb-title" style="font-size:2.5rem; font-weight:900; color:var(--text-accent); margin-bottom:16px; text-transform:uppercase; letter-spacing:2px;"></h2>
+                    <div class="lb-meta" style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+                      <div style="display:flex; align-items:center; gap:10px; color:rgba(234,232,255,0.7); font-size:0.9rem;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <span>February 24-27, 2026</span>
+                      </div>
+                      <div style="display:flex; align-items:center; gap:10px; color:rgba(234,232,255,0.7); font-size:0.9rem;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span>SRM University AP Campus</span>
+                      </div>
+                    </div>
+                    <div class="lb-desc" style="line-height:1.7; color:rgba(234,232,255,0.9); font-size:1.1rem; margin-bottom:32px;"></div>
+                    <button class="lb-reg" style="width:100%; padding:16px; background:linear-gradient(90deg, #38bdf8, #a855f7); border:none; border-radius:12px; color:white; font-weight:800; font-size:1.1rem; cursor:pointer; text-transform:uppercase; letter-spacing:1.5px; box-shadow:0 10px 25px rgba(56, 189, 248, 0.3); transition:all 0.3s ease;">Register Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(lb);
+          lb.querySelector('.lb-close').onclick = () => {
+            lb.style.opacity = '0';
+            setTimeout(() => lb.style.display = 'none', 400);
+          };
+        }
+
+        lb.querySelector('.lb-img').src = imgUrl;
+        lb.querySelector('.lb-title').textContent = title;
+        lb.querySelector('.lb-desc').innerHTML = details || `<p>Experience the thrill of ${title} at Infinitus 2026.</p>`;
+        lb.querySelector('.lb-reg').onclick = () => {
+          if (window.openRegistration) window.openRegistration(title);
+          else alert('Registration for ' + title);
+        };
+
+        lb.style.display = 'flex';
+        setTimeout(() => lb.style.opacity = '1', 50);
+
+        if (window.innerWidth < 768) {
+          lb.querySelector('.lb-grid').style.gridTemplateColumns = '1fr';
+          lb.querySelector('.lb-title').style.fontSize = '1.8rem';
+          lb.querySelector('.lb-inner').style.borderRadius = '0';
+          lb.querySelector('.lb-inner').style.height = '100%';
+          lb.querySelector('.lb-inner').style.width = '100%';
+        }
+      }
+
+      function renderCompetitions() {
+        const root = document.getElementById('react-root');
+        if (!root) return;
+
+        const grid = document.createElement('div');
+        grid.className = 'events-grid';
+
+        competitions.forEach((comp, i) => {
+          const seed = comp.imageSeed || i;
+          const imgUrl = `https://picsum.photos/seed/${seed}/800/600`;
+
+          const cont = document.createElement('div');
+          cont.className = 'card-3d-container';
+
+          cont.innerHTML = `
+            <div class="card-3d" tabindex="0">
+              ${comp.highlight ? '<div class="f-badge">FLAGSHIP</div>' : ''}
+              <div class="card-media" style="background-image:url('${imgUrl}')"></div>
+              <div class="card-body">
+                <div class="card-title">${comp.title}</div>
+                <div class="card-desc">Compete for glory and prizes in ${comp.title}.</div>
+                <div class="card-actions">
+                  <span class="card-link">
+                    Details 
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          cont.addEventListener('click', () => {
+            const large = `https://picsum.photos/seed/${seed}/1200/800`;
+            openLightbox(large, comp.title, comp.details);
+          });
+
+          grid.appendChild(cont);
+        });
+
+        root.appendChild(grid);
+      }
+
+      renderCompetitions();
+
+      document.addEventListener('mousemove', e => {
+        document.querySelectorAll('.card-3d').forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg)`;
+        });
+      });
+    })();
+  </script>
 </body>
 
 </html>
