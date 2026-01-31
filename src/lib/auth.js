@@ -6,26 +6,37 @@ export async function signUp(email, password, userData = {}) {
     email,
     password,
     options: {
-      data: userData
+      data: userData,
+      emailRedirectTo: window.location.origin
     }
   });
 
   if (error) throw error;
 
-  // Create profile entry
+  // Create profile via serverless API (uses service role key)
   if (data.user) {
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .insert([{
-        id: data.user.id,
-        email: data.user.email,
-        name: userData.name || email.split('@')[0],
-        college: userData.college || null,
-        phone: userData.phone || null
-      }]);
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '/api';
+      const response = await fetch(`${apiUrl}/create-profile`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: data.user.id,
+          email: data.user.email,
+          name: userData.name || email.split('@')[0],
+          college: userData.college || null,
+          phone: userData.phone || null
+        })
+      });
 
-    if (profileError) {
-      console.error('Profile creation error:', profileError);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Profile creation error:', errorData);
+        throw new Error(errorData.error || 'Failed to create profile');
+      }
+    } catch (profileError) {
+      console.error('Profile creation failed:', profileError);
+      throw new Error('Database error saving new user');
     }
   }
 

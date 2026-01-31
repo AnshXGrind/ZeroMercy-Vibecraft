@@ -173,6 +173,7 @@
           email,
           password,
           options: {
+            emailRedirectTo: window.location.origin,
             data: {
               name,
               college,
@@ -189,20 +190,32 @@
         }
 
         if (authData.user) {
-          // Create profile in profiles table
-          const { error: profileError } = await supabaseClient
-            .from('profiles')
-            .insert([{
-              id: authData.user.id,
-              email: authData.user.email,
-              name,
-              college: college || null,
-              phone: phone || null
-            }]);
+          // Create profile via serverless API (uses service role key)
+          try {
+            const apiUrl = window.location.origin + '/api';
+            const profileResponse = await fetch(`${apiUrl}/create-profile`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                user_id: authData.user.id,
+                email: authData.user.email,
+                name,
+                college: college || null,
+                phone: phone || null
+              })
+            });
 
-          if (profileError) {
-            console.error('Profile creation error:', profileError);
-            // Continue anyway - profile might auto-create via trigger
+            if (!profileResponse.ok) {
+              const errorData = await profileResponse.json();
+              console.error('Profile API error:', errorData);
+              throw new Error(errorData.error || 'Failed to create profile');
+            }
+          } catch (profileError) {
+            console.error('Profile creation failed:', profileError);
+            showError('Database error saving new user');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Create Account';
+            return false;
           }
 
           showToast('✓ Account created successfully!', 2000);
