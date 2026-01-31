@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In — Infinitus</title>
+  <style>
+    :root {
+      --bg-primary:#0b0a1a; --text-primary:#eae8ff; --text-accent:#38bdf8; --border-subtle: rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh}
+    .top-tab-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;width:100%;padding:0 20px;pointer-events:none}
+    .top-glass-tab{pointer-events:auto;background:transparent;border:none;color:var(--text-primary);padding:0;display:flex;gap:10px;max-width:980px;width:min(980px,96%);align-items:center;justify-content:center}
+    .top-glass-tab .tab-btn{background:transparent;border:none;color:var(--text-primary);padding:8px 14px;border-radius:999px;font-weight:600;text-decoration:none;cursor:pointer}
+    .top-glass-tab .tab-btn.active{color:var(--text-accent)}
+    .left-controls{position:fixed;left:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;align-items:flex-start;z-index:10001}
+    .icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border:1px solid var(--border-subtle);color:var(--text-primary);text-decoration:none}
+    .social-bar{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:9999;align-items:flex-end}
+    .container{max-width:720px;margin:128px auto;padding:24px}
+    .card{background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);padding:28px;border-radius:12px;backdrop-filter:blur(6px)}
+    .card h1{font-size:1.6rem;margin-bottom:8px}
+    .form-row{margin-top:14px}
+    label{display:block;font-size:0.9rem;margin-bottom:6px;color:var(--text-primary);opacity:0.9}
+    input[type="email"],input[type="password"]{width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text-primary)}
+    .submit{margin-top:18px;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--text-accent);color:#071124;border:none;font-weight:700;cursor:pointer}
+    .muted{opacity:0.8;margin-top:8px;font-size:0.9rem}
+    @media (max-width:640px){.left-controls{display:none}.social-bar{right:12px;top:auto;bottom:12px;transform:none;flex-direction:row;gap:8px}.icon-btn,.social-btn{width:36px;height:36px}}
+  </style>
+</head>
+<body>
+  <div class="top-tab-container">
+    <div class="top-glass-tab">
+      <a class="tab-btn" href="/event.html">Event</a>
+      <a class="tab-btn" href="/competition.html">Competition</a>
+      <a class="tab-btn" href="/workshop.html">Workshop</a>
+    </div>
+  </div>
+
+  <div class="left-controls" aria-hidden="false">
+    <a class="icon-btn" href="/video-hero.html" aria-label="Home" title="Home">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </a>
+    <a class="icon-btn" href="/about.html" aria-label="About" title="About">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    </a>
+    <a class="icon-btn" href="/faq.html" aria-label="FAQ" title="FAQ">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 12.9 12 13.5 12 15h-2v-.5c0-1 .45-1.75 1.17-2.5l1.24-1.26A1.75 1.75 0 0012.5 8.5c0-.97.78-1.75 1.75-1.75S16 7.53 16 8.5c0 1.2-.5 1.99-1.93 2.99z"/></svg>
+    </a>
+  </div>
+
+  <div class="social-bar" aria-hidden="false">
+    <a class="social-btn" href="https://x.com/HackSRM" target="_blank" rel="noopener noreferrer" aria-label="X">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+    </a>
+  </div>
+
+  <main class="container">
+    <div class="card">
+      <h1>Sign in to Infinitus</h1>
+      <p class="muted">Use your email to sign in for registration and updates.</p>
+
+      <form id="loginForm" action="#" method="POST" onsubmit="return handleSubmit(event)">
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password" />
+        </div>
+        <button class="submit" type="submit">Sign In</button>
+      </form>
+      <p class="muted">Don't have an account? <a href="/register.html">Register</a></p>
+    </div>
+  </main>
+
+  <script>
+    function handleSubmit(e){
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      if(!email){ alert('Enter a valid email'); return false; }
+      // placeholder behaviour: show success and redirect to homepage
+      alert('Signed in (demo) — redirecting to homepage');
+      location.href = '/video-hero.html';
+      return false;
+    }
+  </script>
+</body>
+</html>

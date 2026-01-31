@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/video-hero.html" },
+    { "source": "/index.html", "destination": "/video-hero.html" },
+    { "source": "/index", "destination": "/video-hero.html" }
+  ]
+}
