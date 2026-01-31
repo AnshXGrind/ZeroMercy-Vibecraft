@@ -21,9 +21,20 @@
   // Create global styles for auth buttons
   function injectStyles() {
     if (document.getElementById('auth-nav-styles')) return;
+
+    // Inject Google Fonts link for Orbitron
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap';
+    document.head.appendChild(link);
+
     const style = document.createElement('style');
     style.id = 'auth-nav-styles';
     style.textContent = `
+      .auth-nav-btn, .top-glass-tab .tab-btn {
+        font-family: 'Orbitron', 'Inter', system-ui, sans-serif !important;
+        letter-spacing: 0.5px;
+      }
       .auth-nav-btn {
         padding: 8px 18px;
         border-radius: 8px;
