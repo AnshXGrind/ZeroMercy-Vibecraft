@@ -474,7 +474,7 @@
   </div>
 
   <section class="hero-section">
-    <video class="video-bg" autoplay muted loop playsinline preload="metadata" id="bgVideo" crossorigin="anonymous">
+    <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
       <source src="/videos/hero-bg.mp4" type="video/mp4">
       <!-- Background video for hero section -->
     </video>
@@ -502,50 +502,60 @@
       });
     })();
 
-    // Enhanced video playback with diagnostics
+    // Enhanced video playback with aggressive autoplay
     const video = document.getElementById('bgVideo');
     
     if (!video) {
       console.error('❌ Video element not found!');
     } else {
       console.log('✅ Video element found');
-      console.log('📁 Video sources:', Array.from(video.querySelectorAll('source')).map(s => s.src));
+      console.log('📁 Video src:', video.querySelector('source')?.src);
       
-      // Log video events for debugging
-      video.addEventListener('loadstart', () => console.log('📹 Video loading started...'));
-      video.addEventListener('loadedmetadata', () => console.log('✅ Video metadata loaded'));
-      video.addEventListener('loadeddata', () => console.log('✅ Video data loaded'));
-      video.addEventListener('canplay', () => console.log('✅ Video can play'));
-      video.addEventListener('playing', () => console.log('▶️ Video is playing'));
-      video.addEventListener('pause', () => console.log('⏸️ Video paused'));
+      // Set video properties
+      video.muted = true;
+      video.playsInline = true;
+      video.autoplay = true;
+      video.loop = true;
+      
+      // Force load
+      video.load();
+      
+      // Log video events
+      video.addEventListener('loadstart', () => console.log('📹 Video loading...'));
+      video.addEventListener('loadedmetadata', () => console.log('✅ Metadata loaded'));
+      video.addEventListener('loadeddata', () => console.log('✅ Data loaded'));
+      video.addEventListener('canplay', () => console.log('✅ Can play'));
+      video.addEventListener('playing', () => console.log('▶️ Playing'));
       video.addEventListener('error', (e) => {
-        console.error('❌ Video error:', e, video.error);
-        if (video.error) {
-          console.error('Error code:', video.error.code, 'Message:', video.error.message);
-        }
+        console.error('❌ Video error:', video.error?.code, video.error?.message);
+        console.error('Failed source:', video.currentSrc);
       });
       
-      function ensurePlay() {
-        if (video.paused) {
-          console.log('Attempting to play video...');
+      function forcePlay() {
+        if (video.readyState >= 2) {
           video.play().then(() => {
-            console.log('✅ Video play succeeded');
-          }).catch((error) => {
-            console.warn('⚠️ Autoplay blocked:', error.message);
-            console.log('💡 Click anywhere to start video');
+            console.log('✅ Video started');
+          }).catch((err) => {
+            console.warn('⚠️ Autoplay blocked, retrying...', err.message);
+            // Retry after user interaction
+            document.addEventListener('click', () => video.play(), { once: true });
+            document.addEventListener('touchstart', () => video.play(), { once: true });
           });
         }
       }
 
-      // Try to play when metadata is loaded
-      video.addEventListener('loadedmetadata', ensurePlay);
+      // Multiple trigger points
+      video.addEventListener('loadedmetadata', forcePlay);
+      video.addEventListener('loadeddata', forcePlay);
+      video.addEventListener('canplay', forcePlay);
       
-      // Try to play when data is loaded
-      video.addEventListener('loadeddata', ensurePlay);
+      // Immediate attempt
+      setTimeout(forcePlay, 100);
+      setTimeout(forcePlay, 500);
 
       // Resume on visibility change
       document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) ensurePlay();
+        if (!document.hidden && video.paused) forcePlay();
       });
 
       // Resume on user interaction (for autoplay policy)
