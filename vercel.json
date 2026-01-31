@@ -5,7 +5,7 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/video-hero.html" },
-    { "source": "/index.html", "destination": "/video-hero.html" },
+    { "source": "/home", "destination": "/video-hero.html" },
     { "source": "/index", "destination": "/video-hero.html" }
   ],
   "headers": [
@@ -20,6 +20,24 @@
     },
     {
       "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/videos/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
