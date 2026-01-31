@@ -117,7 +117,7 @@
 
     .header-box {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
 
     .header-box h1 {
@@ -138,6 +138,102 @@
       max-width: 600px;
       margin: 0 auto;
       letter-spacing: 1px;
+    }
+
+    /* Horizontal Timeline */
+    .h-timeline-section {
+      margin-bottom: 80px;
+      overflow-x: auto;
+      padding: 20px 0 40px;
+      /* Hide scrollbar for clean look */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .h-timeline-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    .h-timeline-track {
+      display: flex;
+      gap: 60px;
+      min-width: max-content;
+      position: relative;
+      padding: 0 40px;
+    }
+
+    /* Connecting line */
+    .h-timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 40px;
+      right: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--text-accent), var(--text-accent), transparent);
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .h-time-node {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 280px;
+      text-align: center;
+    }
+
+    .h-time-dot {
+      width: 16px;
+      height: 16px;
+      background: var(--bg-primary);
+      border: 3px solid var(--text-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 15px var(--text-accent);
+      margin-bottom: 24px;
+      /* Center visually on the line (top:24px line, dot height 16px -> 8px offset + top margin adjustment) */
+      margin-top: 16px;
+    }
+
+    .h-time-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .h-time-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+    }
+
+    .h-time-date {
+      color: var(--text-accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .h-time-title {
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .h-time-desc {
+      font-size: 0.85rem;
+      color: rgba(234, 232, 255, 0.7);
+      line-height: 1.5;
     }
 
     /* Grid Layout */
@@ -250,6 +346,7 @@
       color: rgba(234, 232, 255, 0.9);
       font-size: 0.98rem;
       letter-spacing: 0.4px;
+      font-weight: 600;
     }
 
     @media (max-width: 640px) {
@@ -333,6 +430,89 @@
       <h1>Experience</h1>
       <p>Immerse yourself in the flagship experiences of Infinitus 2026.</p>
     </div>
+
+    <div class="sub-header">
+      SCROLL THE TIMELINE BELOW TO SEE THE SCHEDULE
+    </div>
+
+    <!-- Horizontal Timeline -->
+    <div class="h-timeline-section">
+      <div class="h-timeline-track">
+        <!-- Day 1 -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 24 - DAY 1</div>
+            <div class="h-time-title">Inauguration</div>
+            <div class="h-time-desc">Opening Ceremony & Keynote</div>
+          </div>
+        </div>
+        <!-- Day 1 PM -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 24 - NIGHT</div>
+            <div class="h-time-title">Flash Mob</div>
+            <div class="h-time-desc">Campus-wide spectacle</div>
+          </div>
+        </div>
+        <!-- Day 2 -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 25 - DAY 2</div>
+            <div class="h-time-title">Super Car Expo</div>
+            <div class="h-time-desc">Luxury auto showcase</div>
+          </div>
+        </div>
+        <!-- Day 2 PM -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 25 - NIGHT</div>
+            <div class="h-time-title">DJ Campfire</div>
+            <div class="h-time-desc">Bonfire & Beats</div>
+          </div>
+        </div>
+        <!-- Day 3 -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 26 - DAY 3</div>
+            <div class="h-time-title">Car Rally</div>
+            <div class="h-time-desc">Off-road adrenaline</div>
+          </div>
+        </div>
+        <!-- Day 3 PM -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 26 - NIGHT</div>
+            <div class="h-time-title">Game Night</div>
+            <div class="h-time-desc">Esports Arena Finals</div>
+          </div>
+        </div>
+        <!-- Day 4 -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 27 - NIGHT</div>
+            <div class="h-time-title">Music Night</div>
+            <div class="h-time-desc">Live Concert & Headliner</div>
+          </div>
+        </div>
+        <!-- Day 5 -->
+        <div class="h-time-node">
+          <div class="h-time-dot"></div>
+          <div class="h-time-card">
+            <div class="h-time-date">FEB 28 - NIGHT</div>
+            <div class="h-time-title">DJ Nights</div>
+            <div class="h-time-desc">Closing Party</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="react-root"></div>
   </div>
 

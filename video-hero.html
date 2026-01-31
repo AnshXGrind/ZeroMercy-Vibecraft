@@ -385,6 +385,53 @@
         display: none !important;
       }
     }
+
+    /* Countdown Timer */
+    .countdown-container {
+      margin-top: 32px;
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .countdown-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .countdown-container {
+        gap: 16px;
+      }
+
+      .countdown-val {
+        font-size: 2rem;
+      }
+
+      .countdown-label {
+        font-size: 0.7rem;
+      }
+    }
   </style>
 </head>
 
@@ -475,10 +522,10 @@
 
   <section class="hero-section">
     <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
-       <!-- Primary: local hero video (will be used once you add the real binary) -->
-       <source src="/videos/hero-srm2.mp4" type="video/mp4">
-       <!-- Fallback: public sample video while local file is not present -->
-       <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+      <!-- Primary: local hero video (will be used once you add the real binary) -->
+      <source src="/videos/hero-srm2.mp4" type="video/mp4">
+      <!-- Fallback: public sample video while local file is not present -->
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
     </video>
 
     <div class="overlay">
@@ -486,12 +533,64 @@
         <img src="/images/infinitus-logo-25th.png"
           alt="Infinitus - SRM University Andhra Pradesh Presents - 24th to 28th February 2026 - SRM AP's Largest Science & Technology Festival"
           class="hero-image" />
-        <!-- date removed -->
+
+        <div id="countdown" class="countdown-container">
+          <div class="countdown-item">
+            <span class="countdown-val" id="d">00</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-val" id="h">00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-val" id="m">00</span>
+            <span class="countdown-label">Mins</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-val" id="s">00</span>
+            <span class="countdown-label">Secs</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <script>
+    // Countdown Logic
+    (function initCountdown() {
+      const targetDate = new Date("February 24, 2026 00:00:00").getTime();
+
+      const update = () => {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff < 0) {
+          const container = document.getElementById("countdown");
+          if (container) container.innerHTML = "<div class='countdown-val'>LIVE NOW</div>";
+          return;
+        }
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const elD = document.getElementById("d");
+        const elH = document.getElementById("h");
+        const elM = document.getElementById("m");
+        const elS = document.getElementById("s");
+
+        if (elD) elD.innerText = d < 10 ? "0" + d : d;
+        if (elH) elH.innerText = h < 10 ? "0" + h : h;
+        if (elM) elM.innerText = m < 10 ? "0" + m : m;
+        if (elS) elS.innerText = s < 10 ? "0" + s : s;
+      };
+
+      setInterval(update, 1000);
+      update();
+    })();
+
     // Set active nav item based on current path
     (function setActiveNav() {
       const items = document.querySelectorAll('.top-glass-tab .tab-btn');
@@ -506,22 +605,22 @@
 
     // Enhanced video playback with aggressive autoplay
     const video = document.getElementById('bgVideo');
-    
+
     if (!video) {
       console.error('❌ Video element not found!');
     } else {
       console.log('✅ Video element found');
       console.log('📁 Video src:', video.querySelector('source')?.src);
-      
+
       // Set video properties
       video.muted = true;
       video.playsInline = true;
       video.autoplay = true;
       video.loop = true;
-      
+
       // Force load
       video.load();
-      
+
       // Log video events
       video.addEventListener('loadstart', () => console.log('📹 Video loading...'));
       video.addEventListener('loadedmetadata', () => console.log('✅ Metadata loaded'));
@@ -532,7 +631,7 @@
         console.error('❌ Video error:', video.error?.code, video.error?.message);
         console.error('Failed source:', video.currentSrc);
       });
-      
+
       function forcePlay() {
         if (video.readyState >= 2) {
           video.play().then(() => {
@@ -550,7 +649,7 @@
       video.addEventListener('loadedmetadata', forcePlay);
       video.addEventListener('loadeddata', forcePlay);
       video.addEventListener('canplay', forcePlay);
-      
+
       // Immediate attempt
       setTimeout(forcePlay, 100);
       setTimeout(forcePlay, 500);
@@ -564,7 +663,7 @@
       ['click', 'touchstart', 'keydown'].forEach(evt => {
         document.addEventListener(evt, ensurePlay, { once: true });
       });
-      
+
       // Force initial play attempt
       setTimeout(ensurePlay, 100);
     }
