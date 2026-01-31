@@ -288,6 +288,8 @@
             }
         }
     </style>
+  <script type="module" crossorigin src="/assets/supabase-Io51i-F3.js"></script>
+  <script type="module" crossorigin src="/assets/static-registration-DB5wYqw4.js"></script>
 </head>
 
 <body>
@@ -359,12 +361,12 @@
             const cont = document.createElement('div');
             cont.className = 'card-3d-container';
             cont.innerHTML = `
-                <div class="card-3d" tabindex="0">
+                <div class="card-3d" tabindex="0" onclick="window.openRegistration('${ws.title}')">
                     <div class="card-face card-media" style="background-image:url('https://picsum.photos/seed/${ws.seed}/800/600')"></div>
                     <div class="card-face card-body">
                         <div class="card-title">${ws.title}</div>
                         <div class="card-desc">${ws.desc}</div>
-                        <div class="card-actions"><span class="card-link">Register Now</span></div>
+                        <div class="card-actions"><button class="card-link" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit">Register Now</button></div>
                     </div>
                 </div>
             `;

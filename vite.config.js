@@ -27,12 +27,14 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), htmlEnvPlugin()],
     root: '.',
     base: '/',
+    publicDir: 'public',
     preview: {
       allowedHosts: ['icy-pets-arrive.loca.lt']
     },
     build: {
       outDir: 'dist',
       emptyOutDir: true,
+      copyPublicDir: true,
       rollupOptions: {
         input: {
           // React app

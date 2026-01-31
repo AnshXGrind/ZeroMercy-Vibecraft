@@ -285,8 +285,10 @@
       }
     }
   </style>
-  <script type="module" crossorigin src="/assets/event-0pgT6CUE.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/styles-ShlR2hAk.js">
+  <script type="module" crossorigin src="/assets/event-C6zONbvk.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-Io51i-F3.js">
+  <link rel="modulepreload" crossorigin href="/assets/static-registration-DB5wYqw4.js">
+  <link rel="modulepreload" crossorigin href="/assets/styles-DWdunBIN.js">
   <link rel="stylesheet" crossorigin href="/assets/styles-Bzpo683z.css">
 </head>
 
@@ -734,7 +736,8 @@
 
             lb.querySelector('img').src = src
             lb.querySelector('h2').textContent = title
-            lb.querySelector('.lb-content div:last-child div').innerHTML = details || `<p>An electrifying experience — ${title} at Infinitus. Explore the futuristic world of ${title} with high-tech displays and immersive activities.</p>`
+            lb.querySelector('.lb-content div:last-child div').innerHTML = (details || `<p>An electrifying experience — ${title} at Infinitus. Explore the futuristic world of ${title} with high-tech displays and immersive activities.</p>`) +
+              `<br><br><button onclick="window.openRegistration('${title}')" style="padding: 14px 28px; background: linear-gradient(90deg, #38bdf8, #a855f7); border: none; color: #fff; fontWeight: 800; borderRadius: 8px; cursor: pointer; fontSize: 1.1rem; boxShadow: 0 10px 20px rgba(56, 189, 248, 0.2)">Register Now</button>`;
           }
 
           btn.addEventListener('click', () => {

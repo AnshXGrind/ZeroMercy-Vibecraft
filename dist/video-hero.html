@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#0b0a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="supabase-url" content="https://opqstjxvkzdxkpzadihv.supabase.co">
+  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wcXN0anh2a3pkeGtwemFkaWh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4ODM5OTAsImV4cCI6MjA4NTQ1OTk5MH0.4948VdIyY2HqmHXZEK61SABo2BURSCtAO75P9lum2RQ">
   <link rel="manifest" href="/assets/manifest-ayRd0hzX.json">
   <style>
     :root {
@@ -175,18 +177,7 @@
       animation: fadeInUp 1s ease;
     }
 
-    .event-date {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--neon-blue);
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      box-shadow: none;
-    }
+    /* .event-date removed */
 
     @keyframes fadeInUp {
       from {
@@ -406,9 +397,7 @@
     </div>
   </div>
 
-  <div class="top-right-controls">
-    <button class="signin-btn" onclick="location.href='/login'">SIGN IN</button>
-  </div>
+  <!-- Auth nav injected dynamically by auth-nav.js -->
 
   <!-- Left side controls (Home, About, Stalls, Sponsors) -->
   <div class="left-controls" aria-hidden="false">
@@ -486,7 +475,6 @@
 
   <section class="hero-section">
     <video class="video-bg" autoplay muted loop playsinline preload="metadata" id="bgVideo" crossorigin="anonymous">
-      <source src="./videos/hero-bg.mp4" type="video/mp4">
       <source src="/videos/hero-bg.mp4" type="video/mp4">
       <!-- Background video for hero section -->
     </video>
@@ -496,7 +484,7 @@
         <img src="/images/infinitus-logo-25th.png"
           alt="Infinitus - SRM University Andhra Pradesh Presents - 24th to 28th February 2026 - SRM AP's Largest Science & Technology Festival"
           class="hero-image" />
-        <div class="event-date">24–28 Feb 2026</div>
+        <!-- date removed -->
       </div>
     </div>
   </section>
@@ -586,6 +574,10 @@
       });
     }
   </script>
+
+  <!-- Auth System -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/auth-nav.js"></script>
 </body>
 
 </html>
