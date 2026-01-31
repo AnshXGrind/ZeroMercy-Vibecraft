@@ -1,7 +1,7 @@
 // Global auth navigation state manager
 // Include this in all pages that need auth UI updates
 
-(function() {
+(function () {
   'use strict';
 
   const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
@@ -18,8 +18,55 @@
     }
   }
 
+  // Create global styles for auth buttons
+  function injectStyles() {
+    if (document.getElementById('auth-nav-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'auth-nav-styles';
+    style.textContent = `
+      .auth-nav-btn {
+        padding: 8px 18px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #eae8ff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 200ms ease;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .auth-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(34, 211, 238, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      .auth-nav-btn.primary {
+        background: linear-gradient(90deg, #38bdf8, #a855f7);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+      }
+      .auth-nav-btn.logout {
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+      .auth-nav-btn.logout:hover {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.6);
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   // Find or create auth nav container in top-right
   function getOrCreateAuthNav() {
+    injectStyles();
     let container = document.querySelector('.top-right-auth-nav');
     if (!container) {
       container = document.createElement('div');
@@ -34,8 +81,7 @@
   function renderSignedOut() {
     const container = getOrCreateAuthNav();
     container.innerHTML = `
-      <a href="/login" style="padding:8px 16px;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#eae8ff;text-decoration:none;font-weight:600;font-size:0.9rem;transition:all 150ms;">Sign In</a>
-      <a href="/register" style="padding:8px 18px;border-radius:6px;background:#38bdf8;color:#071124;text-decoration:none;font-weight:700;font-size:0.9rem;transition:all 150ms;">Register</a>
+      <a href="/login" class="auth-nav-btn">Login</a>
     `;
   }
 
@@ -43,8 +89,8 @@
   function renderSignedIn(userName) {
     const container = getOrCreateAuthNav();
     container.innerHTML = `
-      <a href="/dashboard" style="padding:8px 16px;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#eae8ff;text-decoration:none;font-weight:600;font-size:0.9rem;transition:all 150ms;">${userName || 'Dashboard'}</a>
-      <button id="logoutBtn" style="padding:8px 18px;border-radius:6px;background:#ff3cac;color:white;border:none;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 150ms;">Logout</button>
+      <a href="/dashboard" class="auth-nav-btn">${userName || 'Dashboard'}</a>
+      <button id="logoutBtn" class="auth-nav-btn logout">Logout</button>
     `;
 
     // Attach logout handler
@@ -54,7 +100,7 @@
   // Handle logout
   async function handleLogout() {
     if (!supabaseClient) return;
-    
+
     try {
       await supabaseClient.auth.signOut();
       window.location.href = '/';
@@ -73,7 +119,7 @@
 
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
-      
+
       if (session?.user) {
         // Get profile for display name
         const { data: profile } = await supabaseClient

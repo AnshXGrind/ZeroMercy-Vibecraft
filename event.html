@@ -297,9 +297,7 @@
     </div>
   </div>
 
-  <div class="top-right-controls">
-    <button class="signin-btn" onclick="location.href='/login'">SIGN IN</button>
-  </div>
+  <!-- Auth nav injected dynamically by auth-nav.js -->
 
   <!-- Left side controls (Home, About, Stalls, Sponsors) -->
   <div class="left-controls" aria-hidden="false">
@@ -758,6 +756,9 @@
         }, 300);
       })();
   </script>
+  <!-- Auth System -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/auth-nav.js"></script>
 </body>
 
 </html>
