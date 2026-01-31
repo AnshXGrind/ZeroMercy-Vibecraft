@@ -34,7 +34,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ eventName, onClos
 
         try {
             const { error: submitError } = await supabase
-                .from('registrations')
+                .from('quick_registrations')
                 .insert([
                     {
                         name: formData.name,

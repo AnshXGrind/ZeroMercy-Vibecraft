@@ -475,8 +475,10 @@
 
   <section class="hero-section">
     <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
-      <source src="/videos/hero-bg.mp4" type="video/mp4">
-      <!-- Background video for hero section -->
+       <!-- Primary: local hero video (will be used once you add the real binary) -->
+       <source src="/videos/hero-bg.mp4" type="video/mp4">
+       <!-- Fallback: public sample video while local file is not present -->
+       <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
     </video>
 
     <div class="overlay">

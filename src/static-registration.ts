@@ -1,8 +1,8 @@
 import { supabase } from './lib/supabase';
 
 export function initRegistration() {
-    const style = document.createElement('style');
-    style.textContent = `
+  const style = document.createElement('style');
+  style.textContent = `
     .reg-modal-overlay {
       position: fixed; inset: 0; z-index: 20000; 
       background: rgba(11,10,26,0.95); backdrop-filter: blur(10px);
@@ -31,11 +31,11 @@ export function initRegistration() {
     .reg-success-toast { position: fixed; bottom: 24px; right: 24px; z-index: 20001; background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 16px 24px; border-radius: 12px; border: 1px solid rgba(34, 197, 94, 0.2); backdrop-filter: blur(10px); display: none; animation: regSlideIn 0.3s ease-out; }
     @keyframes regSlideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   `;
-    document.head.appendChild(style);
+  document.head.appendChild(style);
 
-    const overlay = document.createElement('div');
-    overlay.className = 'reg-modal-overlay';
-    overlay.innerHTML = `
+  const overlay = document.createElement('div');
+  overlay.className = 'reg-modal-overlay';
+  overlay.innerHTML = `
     <div class="reg-modal-content">
       <h2 id="reg-event-title">Register for Event</h2>
       <p>Please provide your details to participate.</p>
@@ -69,79 +69,79 @@ export function initRegistration() {
       </form>
     </div>
   `;
-    document.body.appendChild(overlay);
+  document.body.appendChild(overlay);
 
-    const toast = document.createElement('div');
-    toast.className = 'reg-success-toast';
-    document.body.appendChild(toast);
+  const toast = document.createElement('div');
+  toast.className = 'reg-success-toast';
+  document.body.appendChild(toast);
 
-    let currentEvent = '';
+  let currentEvent = '';
 
-    window.openRegistration = (eventName: string) => {
-        currentEvent = eventName;
-        (document.getElementById('reg-event-title') as HTMLElement).textContent = `Register for ${eventName}`;
-        overlay.style.display = 'flex';
-    };
+  window.openRegistration = (eventName: string) => {
+    currentEvent = eventName;
+    (document.getElementById('reg-event-title') as HTMLElement).textContent = `Register for ${eventName}`;
+    overlay.style.display = 'flex';
+  };
 
-    const close = () => {
-        overlay.style.display = 'none';
-        (document.getElementById('reg-form') as HTMLFormElement).reset();
-        (document.getElementById('reg-error') as HTMLElement).style.display = 'none';
-    };
+  const close = () => {
+    overlay.style.display = 'none';
+    (document.getElementById('reg-form') as HTMLFormElement).reset();
+    (document.getElementById('reg-error') as HTMLElement).style.display = 'none';
+  };
 
-    document.getElementById('reg-cancel')?.addEventListener('click', close);
+  document.getElementById('reg-cancel')?.addEventListener('click', close);
 
-    document.getElementById('reg-form')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById('reg-submit') as HTMLButtonElement;
-        const errorEl = document.getElementById('reg-error') as HTMLElement;
+  document.getElementById('reg-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('reg-submit') as HTMLButtonElement;
+    const errorEl = document.getElementById('reg-error') as HTMLElement;
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Registering...';
-        errorEl.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Registering...';
+    errorEl.style.display = 'none';
 
-        const name = (document.getElementById('reg-name') as HTMLInputElement).value;
-        const email = (document.getElementById('reg-email') as HTMLInputElement).value;
-        const phone = (document.getElementById('reg-phone') as HTMLInputElement).value;
-        const regNumRaw = (document.getElementById('reg-number') as HTMLInputElement).value;
+    const name = (document.getElementById('reg-name') as HTMLInputElement).value;
+    const email = (document.getElementById('reg-email') as HTMLInputElement).value;
+    const phone = (document.getElementById('reg-phone') as HTMLInputElement).value;
+    const regNumRaw = (document.getElementById('reg-number') as HTMLInputElement).value;
 
-        const digitsOnly = regNumRaw.replace(/\D/g, '');
-        if (digitsOnly.length !== 11) {
-            errorEl.textContent = 'Registration number must be exactly 11 digits.';
-            errorEl.style.display = 'block';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Complete Registration';
-            return;
-        }
+    const digitsOnly = regNumRaw.replace(/\D/g, '');
+    if (digitsOnly.length !== 11) {
+      errorEl.textContent = 'Registration number must be exactly 11 digits.';
+      errorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Complete Registration';
+      return;
+    }
 
-        const fullRegNumber = `AP${digitsOnly}`;
+    const fullRegNumber = `AP${digitsOnly}`;
 
-        try {
-            const { error } = await supabase
-                .from('registrations')
-                .insert([{
-                    name, email, phone,
-                    registration_number: fullRegNumber,
-                    event_name: currentEvent
-                }]);
+    try {
+      const { error } = await supabase
+        .from('quick_registrations')
+        .insert([{
+          name, email, phone,
+          registration_number: fullRegNumber,
+          event_name: currentEvent
+        }]);
 
-            if (error) throw error;
+      if (error) throw error;
 
-            close();
-            toast.textContent = `Successfully registered for ${currentEvent}!`;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 5000);
-        } catch (err: any) {
-            errorEl.textContent = err.message || 'An error occurred.';
-            errorEl.style.display = 'block';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Complete Registration';
-        }
-    });
+      close();
+      toast.textContent = `Successfully registered for ${currentEvent}!`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 5000);
+    } catch (err: any) {
+      errorEl.textContent = err.message || 'An error occurred.';
+      errorEl.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Complete Registration';
+    }
+  });
 }
 
 // Auto-init if not in a module environment or if we want it global
 if (typeof window !== 'undefined') {
-    initRegistration();
+  initRegistration();
 }
