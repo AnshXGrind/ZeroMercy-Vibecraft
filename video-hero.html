@@ -475,8 +475,12 @@
 
   <section class="hero-section">
     <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
+      <!-- Using a public sample video while the original MP4 is stored via Git LFS.
+           Replace this src with "/videos/hero-bg.mp4" after committing the actual binary
+           or host your video in Supabase Storage / CDN and point to that URL. -->
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+      <!-- Fallback to local file if available -->
       <source src="/videos/hero-bg.mp4" type="video/mp4">
-      <!-- Background video for hero section -->
     </video>
 
     <div class="overlay">
