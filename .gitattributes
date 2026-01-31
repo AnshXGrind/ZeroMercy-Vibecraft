@@ -1,3 +1,8 @@
 # Auto detect text files and perform LF normalization
+# Keep binary handling explicit. MP4 files were previously tracked with Git LFS
+# which causes pointer files to be present on deploy platforms that don't
+# automatically fetch LFS objects (like Vercel). Stop using LFS for mp4 so
+# the actual video binaries are committed and served correctly.
 * text=auto
-*.mp4 filter=lfs diff=lfs merge=lfs -text
+# Commented out mp4 LFS rule to allow committing mp4 binaries directly
+# *.mp4 filter=lfs diff=lfs merge=lfs -text
