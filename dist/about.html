@@ -2,133 +2,59 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Infinitus — Tech Fest</title>
-  <meta name="theme-color" content="#0b0a1a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="/manifest.json">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About — Infinitus</title>
   <style>
     :root {
-      /* Core Backgrounds */
       --bg-primary: #0b0a1a;
-      --bg-secondary: #14122b;
-      --bg-tertiary: #1c1a3a;
-
-      /* Neon Accents */
-      --neon-pink: #ff3cac;
-      --neon-purple: #a855f7;
-      --neon-blue: #38bdf8;
-      --neon-teal: #22d3ee;
-
-      /* Text */
       --text-primary: #eae8ff;
-      --text-secondary: #b8b5ff;
-      --text-muted: #8a88b5;
-
-      /* UI Elements */
-      --border-glow: rgba(168, 85, 247, 0.6);
+      --text-accent: #38bdf8;
       --border-subtle: rgba(255, 255, 255, 0.08);
-
-      /* Gradients */
-      --gradient-main: linear-gradient(135deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
-      --gradient-neon: linear-gradient(90deg, #a855f7, #38bdf8, #22d3ee);
-
-      /* Shadows */
-      --shadow-neon-pink: 0 0 25px rgba(255, 60, 172, 0.6);
-      --shadow-neon-blue: 0 0 25px rgba(56, 189, 248, 0.5);
     }
 
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      overflow-x: hidden;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
+      min-height: 100vh
     }
 
-    .hero-section {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--bg-primary);
-    }
-
-    .video-bg {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      z-index: 1;
-      /* boost video intensity for more vivid background */
-      filter: saturate(1.15) brightness(1.12) contrast(1.06);
-    }
-
-    .overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      /* reduce overlay darkness so video shows through more */
-      background: radial-gradient(circle at 50% 50%, rgba(20, 16, 40, 0.12), rgba(12, 9, 30, 0.46));
-    }
-
-    .content {
-      text-align: center;
-      color: var(--text-primary);
-      padding: 24px;
-      max-width: 1200px;
-    }
-
-    /* Top fixed glass tab (wider, with individual tab buttons) */
     .top-tab-container {
       position: fixed;
       top: 16px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
       width: 100%;
       padding: 0 20px;
+      pointer-events: none
     }
 
     .top-glass-tab {
       pointer-events: auto;
-      /* show only individual tab buttons (no surrounding pill) */
+      /* transparent container so only individual tab buttons show */
       background: transparent;
-      -webkit-backdrop-filter: none;
       backdrop-filter: none;
       border: none;
       color: var(--text-primary);
       padding: 0;
       border-radius: 0;
-      font-size: 0.95rem;
+      font-size: .95rem;
       font-weight: 600;
-      transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
-      opacity: 0.98;
       display: flex;
       gap: 10px;
       max-width: 980px;
       width: min(980px, 96%);
       align-items: center;
       justify-content: center;
+      margin: 0 auto
     }
 
     .top-glass-tab .tab-btn {
@@ -139,88 +65,27 @@
       border-radius: 999px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 150ms ease, transform 150ms ease;
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
+      text-decoration: none;
       pointer-events: auto;
     }
 
-    /* remove underline forcefully and keep tabs looking like buttons */
     .top-glass-tab .tab-btn {
-      -webkit-text-decoration: none !important;
       text-decoration: none !important;
+      -webkit-text-decoration: none !important;
     }
 
     .top-glass-tab .tab-btn:hover {
       background: rgba(56, 189, 248, 0.06);
-      transform: translateY(-2px);
+      transform: translateY(-2px)
     }
 
-    /* Active state for current page */
     .top-glass-tab .tab-btn.active {
       background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
-      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06), 0 0 18px rgba(168, 85, 247, 0.04);
-      color: var(--neon-blue);
-      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+      color: var(--text-accent);
+      transform: translateY(-2px) scale(1.02)
     }
 
-    .hero-image {
-      /* reduce title image size for better balance with video */
-      max-width: min(72vw, 760px);
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      filter: none;
-      animation: fadeInUp 1s ease;
-    }
-
-    .event-date {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--neon-blue);
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      box-shadow: none;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-image {
-        max-width: 95vw;
-      }
-    }
-
-    /* Left social bar (original icons) */
-    .left-social-bar {
-      position: fixed;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-      pointer-events: auto;
-      align-items: flex-start;
-    }
-
-    /* Social bar (fixed right) */
     .social-bar {
       position: fixed;
       right: 18px;
@@ -230,7 +95,6 @@
       flex-direction: column;
       gap: 12px;
       z-index: 9999;
-      pointer-events: auto;
       align-items: flex-end;
     }
 
@@ -264,9 +128,7 @@
       shape-rendering: geometricPrecision;
     }
 
-    /* Left icon controls (home/about) */
     .left-controls {
-      /* vertically center left-side icons */
       position: fixed;
       left: 18px;
       top: 50%;
@@ -274,8 +136,8 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      z-index: 9999;
       align-items: flex-start;
-      z-index: 10001;
     }
 
     .icon-btn {
@@ -301,20 +163,18 @@
       background: rgba(56, 189, 248, 0.06);
     }
 
-    .icon-btn svg {
-      width: 20px;
-      height: 20px
+    .icon-btn.active {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
+      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+      color: var(--text-accent);
+      transform: translateY(-2px) scale(1.02)
     }
 
-    @media (max-width: 880px) {
-      .social-bar {
-        right: 10px;
-      }
-
-      .social-btn {
-        width: 40px;
-        height: 40px;
-      }
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      shape-rendering: geometricPrecision;
     }
 
     /* Slanted Sign In Button */
@@ -331,7 +191,6 @@
 
     .signin-btn {
       background: rgba(255, 255, 255, 0.05);
-      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: white;
@@ -369,6 +228,40 @@
       }
     }
 
+    .hero-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      min-height: 100vh
+    }
+
+    .card {
+      max-width: 980px;
+      background: transparent;
+      text-align: center;
+      padding: 32px;
+      border-radius: 12px
+    }
+
+    .card h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 12px
+    }
+
+    .card p {
+      color: var(--text-primary);
+      opacity: .9
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--text-accent);
+      text-decoration: underline
+    }
+
+
     @media (max-width: 640px) {
       .left-controls {
         display: none !important;
@@ -403,6 +296,8 @@
       <a class="tab-btn" href="/event.html">Event</a>
       <a class="tab-btn" href="/competition.html">Competition</a>
       <a class="tab-btn" href="/workshop.html">Workshop</a>
+      <a class="tab-btn" href="/stalls.html">Stalls</a>
+      <a class="tab-btn" href="/sponsors.html">Sponsors</a>
     </div>
   </div>
 
@@ -412,7 +307,7 @@
 
   <!-- Left side controls (Home, About, Stalls, Sponsors) -->
   <div class="left-controls" aria-hidden="false">
-    <a class="icon-btn active" href="/video-hero.html" aria-label="Home" title="Home">
+    <a class="icon-btn" href="/video-hero.html" aria-label="Home" title="Home">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
       </svg>
@@ -438,7 +333,7 @@
           d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 12.9 12 13.5 12 15h-2v-.5c0-1 .45-1.75 1.17-2.5l1.24-1.26A1.75 1.75 0 0012.5 8.5c0-.97.78-1.75 1.75-1.75S16 7.53 16 8.5c0 1.2-.5 1.99-1.93 2.99z" />
       </svg>
     </a>
-    <a class="icon-btn" href="/about.html" aria-label="About" title="About">
+    <a class="icon-btn active" href="/about.html" aria-label="About" title="About">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
       </svg>
@@ -447,7 +342,6 @@
 
   <div class="social-bar" aria-hidden="false">
     <a class="social-btn" href="https://x.com/HackSRM" target="_blank" rel="noopener noreferrer" aria-label="X">
-      <!-- X (formerly Twitter) -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
           d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
@@ -455,53 +349,81 @@
     </a>
     <a class="social-btn" href="https://www.instagram.com/srmuap.infinitus" target="_blank" rel="noopener noreferrer"
       aria-label="Instagram">
-      <!-- Instagram -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
           d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
       </svg>
     </a>
     <a class="social-btn" href="https://discord.com/" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-      <!-- Discord -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
           d="M20 4a16 16 0 00-4.6-1.4c-.2.3-.5.6-.7.8-2.1-.3-4.2-.3-6.3 0-.2-.2-.5-.5-.7-.8A16 16 0 004 4c-2 4-2.3 8.1-.6 11.9 2 1 4.1 1.6 6.3 2 0-1.1.4-2.2 1.2-3.1-2.1-.4-3.6-1.2-4.8-2.1.5-.3 1.1-.5 1.6-.7-1.6-.4-2.9-1.3-3.6-2.2.6-.4 1.2-.6 1.8-.8C8.6 9.1 10 8.9 11.4 8.9c1.4 0 2.8.2 4.2.7.6.2 1.2.4 1.8.8-.7.9-2 1.8-3.6 2.2.5.2 1.1.4 1.6.7-1.2.9-2.7 1.6-4.8 2.1.8.9 1.2 2 1.2 3.1 2.2-.4 4.3-1.1 6.3-2C22.3 12.1 22 8 20 4z" />
       </svg>
     </a>
     <a class="social-btn" href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-      <!-- LinkedIn -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
           d="M6.94 6.5a1.73 1.73 0 11-.02-3.46 1.73 1.73 0 01.02 3.46zM5 9h4v10H5zM11 9h3.6v1.4h.1c.5-.9 1.7-1.8 3.5-1.8 3.7 0 4.4 2.4 4.4 5.6V19h-4v-4.1c0-1 .1-2.1-1.3-2.1-1.3 0-1.6 1.1-1.6 2V19h-4V9z" />
       </svg>
     </a>
     <a class="social-btn" href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-      <!-- YouTube -->
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path
-          d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1-2.9-.2-7.3-.2-7.3-.2h-.1s-4.4 0-7.3.2c-.4.1-1.3.1-2.1 1C.7 4.6.5 6.2.5 6.2S.1 8 .1 9.8v1.4C.1 13.9.5 15.7.5 15.7s.2 1.6.8 2.3c.8.9 1.9.9 2.4 1 1.7.1 7 0 7 0s4.4.1 7.3 0c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.3.8-2.3s.4-1.8.4-3.6v-1.4c0-1.8-.4-3.6-.4-3.6zM9.6 15.1V8.9l5.6 3.1-5.6 3.1z" />
+          d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1-2.9-.2-7.3-.2-7.3-.2h-.1s-4.4 0-7.3.2c-.4.1-1.3.1-2.1 1C.7 4.6.5 6.2.5 6.2S.1 8 .1 9.8v1.4C.1 13.9.5 15.7.5 15.7s.2 1.6.8 2.3c.8.9 1.9.9 2.4 1 1.7.1 7 0 7 0s4.4.1 7.3 0c-.4-.1-1.3-.1-2.1-1 .6-.7.8-2.3.8-2.3s.4-1.8.4-3.6v-1.4c0-1.8-.4-3.6-.4-3.6zM9.6 15.1V8.9l5.6 3.1-5.6 3.1z" />
       </svg>
     </a>
   </div>
 
-  <section class="hero-section">
-    <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
-      <source src="/public/videos/WhatsApp%20Video%202026-01-31%20at%208.30.32%20PM.mp4" type="video/mp4">
-      <!-- fallback source name preserved; if you rename the file to srm1.mp4, restore the original path -->
-    </video>
+  <section id="about" style="padding:96px 24px 48px;">
+    <div class="card" style="max-width:980px;margin: 0 auto; text-align: center;">
+      <h1 style="font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:24px;letter-spacing:1px;color:var(--text-accent)">
+        ABOUT INFINITUS</h1>
+      <p style="max-width: 800px; margin: 0 auto 48px; line-height: 1.8; opacity: 0.9; font-size: 1.1rem;">
+        Infinitus is SRM AP’s premier science and technology fest—a convergence of innovation, competition, and
+        collaboration.
+        Through high-impact events, challenges, and workshops, Infinitus empowers students to explore ideas, build
+        solutions,
+        and shape the future of technology.
+      </p>
 
-    <div class="overlay">
-      <div class="content">
-        <img src="/public/images/infinitus-logo-25th.png"
-          alt="Infinitus - SRM University Andhra Pradesh Presents - 24th to 28th February 2026 - SRM AP's Largest Science & Technology Festival"
-          class="hero-image" />
-        <div class="event-date">24–28 Feb 2026</div>
+      <div
+        style="margin-top: 60px; padding: 40px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px solid var(--border-subtle); backdrop-filter: blur(10px);">
+        <h2
+          style="font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; letter-spacing: -1px; margin-bottom: 24px; text-transform: uppercase; color: #fff; text-shadow: 0 0 30px rgba(56,189,248,0.3);">
+          ZeroMercy
+        </h2>
+        <p
+          style="color: var(--text-accent); font-weight: 600; letter-spacing: 2px; margin-bottom: 32px; text-transform: uppercase; font-size: 0.9rem;">
+          Our Team
+        </p>
+
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 800px; margin: 0 auto;">
+          <!-- Team Leader: Saksham Garg -->
+          <div
+            style="padding: 24px; border-radius: 16px; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.1)); border: 2px solid var(--text-accent); box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); transform: scale(1.05); position: relative;">
+            <div
+              style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--text-accent); color: #000; padding: 4px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
+              Team Leader</div>
+            <div style="font-weight: 800; font-size: 1.2rem; margin-top: 4px;">Saksham Garg</div>
+          </div>
+          <div
+            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+            <div style="font-weight: 700; font-size: 1.1rem;">Hardik Chaurasia</div>
+          </div>
+          <div
+            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+            <div style="font-weight: 700; font-size: 1.1rem;">Sujal Kansal</div>
+          </div>
+          <div
+            style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+            <div style="font-weight: 700; font-size: 1.1rem;">Arjun Sharma</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
   <script>
-    // Set active nav item based on current path
     (function setActiveNav() {
       const items = document.querySelectorAll('.top-glass-tab .tab-btn');
       const path = location.pathname.replace(/\/+/g, '/');
@@ -512,46 +434,10 @@
         } catch (e) { }
       });
     })();
-
-    // Ensure video always plays
-    const video = document.getElementById('bgVideo');
-
-    function ensurePlay() {
-      if (video.paused) {
-        video.play().catch(() => setTimeout(ensurePlay, 100));
-      }
-    }
-
-    // Play on load
-    video.addEventListener('loadeddata', ensurePlay);
-
-    // Resume on visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) ensurePlay();
-    });
-
-    // Resume on user interaction
-    ['click', 'touchstart', 'keydown'].forEach(evt => {
-      document.addEventListener(evt, ensurePlay, { once: true });
-    });
-
-    // Register service worker (for PWA/offline support)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(reg => {
-          console.log('ServiceWorker registered', reg);
-          reg.onupdatefound = () => {
-            const installing = reg.installing;
-            installing?.addEventListener('statechange', () => {
-              if (installing.state === 'installed') {
-                console.log('New content installed.');
-              }
-            });
-          };
-        }).catch(err => console.warn('SW registration failed:', err));
-      });
-    }
   </script>
+
+  <!-- Move to homepage link (lower-right) -->
+  <!-- Move-to-home removed; Home icon available in left-controls -->
 </body>
 
 </html>

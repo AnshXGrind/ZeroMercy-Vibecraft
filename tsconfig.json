@@ -13,12 +13,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "resolveJsonModule": true
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "include": [
-    "src",
-    "vite.config.js"
+    "src"
   ],
   "exclude": [
     "node_modules",
