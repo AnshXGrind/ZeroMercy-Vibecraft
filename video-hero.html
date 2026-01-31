@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#0b0a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="supabase-url" content="%VITE_SUPABASE_URL%">
+  <meta name="supabase-anon-key" content="%VITE_SUPABASE_ANON_KEY%">
   <link rel="manifest" href="/manifest.json">
   <style>
     :root {
@@ -175,18 +177,7 @@
       animation: fadeInUp 1s ease;
     }
 
-    .event-date {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--neon-blue);
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      box-shadow: none;
-    }
+    /* .event-date removed */
 
     @keyframes fadeInUp {
       from {
@@ -406,9 +397,7 @@
     </div>
   </div>
 
-  <div class="top-right-controls">
-    <button class="signin-btn" onclick="location.href='/login'">SIGN IN</button>
-  </div>
+  <!-- Auth nav injected dynamically by auth-nav.js -->
 
   <!-- Left side controls (Home, About, Stalls, Sponsors) -->
   <div class="left-controls" aria-hidden="false">
@@ -485,7 +474,8 @@
   </div>
 
   <section class="hero-section">
-    <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
+    <video class="video-bg" autoplay muted loop playsinline preload="metadata" id="bgVideo" crossorigin="anonymous">
+      <source src="./videos/hero-bg.mp4" type="video/mp4">
       <source src="/videos/hero-bg.mp4" type="video/mp4">
       <!-- Background video for hero section -->
     </video>
@@ -495,7 +485,7 @@
         <img src="/images/infinitus-logo-25th.png"
           alt="Infinitus - SRM University Andhra Pradesh Presents - 24th to 28th February 2026 - SRM AP's Largest Science & Technology Festival"
           class="hero-image" />
-        <div class="event-date">24–28 Feb 2026</div>
+        <!-- date removed -->
       </div>
     </div>
   </section>
@@ -520,6 +510,7 @@
       console.error('❌ Video element not found!');
     } else {
       console.log('✅ Video element found');
+      console.log('📁 Video sources:', Array.from(video.querySelectorAll('source')).map(s => s.src));
       
       // Log video events for debugging
       video.addEventListener('loadstart', () => console.log('📹 Video loading started...'));
@@ -528,7 +519,12 @@
       video.addEventListener('canplay', () => console.log('✅ Video can play'));
       video.addEventListener('playing', () => console.log('▶️ Video is playing'));
       video.addEventListener('pause', () => console.log('⏸️ Video paused'));
-      video.addEventListener('error', (e) => console.error('❌ Video error:', e, video.error));
+      video.addEventListener('error', (e) => {
+        console.error('❌ Video error:', e, video.error);
+        if (video.error) {
+          console.error('Error code:', video.error.code, 'Message:', video.error.message);
+        }
+      });
       
       function ensurePlay() {
         if (video.paused) {
@@ -579,6 +575,10 @@
       });
     }
   </script>
+
+  <!-- Auth System -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/auth-nav.js"></script>
 </body>
 
 </html>

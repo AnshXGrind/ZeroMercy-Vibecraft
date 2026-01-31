@@ -253,6 +253,7 @@
       text-decoration: underline
     }
   </style>
+  <script type="module" src="/src/static-registration.ts"></script>
 </head>
 
 <body>
@@ -428,7 +429,7 @@
           <div class="card-face card-body">
             <div class="card-title">${comp.title}</div>
             <div class="card-desc">${comp.desc || `Compete in ${comp.title} and win exciting prizes.`}</div>
-            <div class="card-actions"><a class="card-link" href="#">Register</a></div>
+            <div class="card-actions"><button class="card-link" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit;font-family:inherit" onclick="window.openRegistration('${comp.title}')">Register</button></div>
           </div>
         </div>
       `;

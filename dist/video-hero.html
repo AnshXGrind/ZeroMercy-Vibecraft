@@ -485,7 +485,8 @@
   </div>
 
   <section class="hero-section">
-    <video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo">
+    <video class="video-bg" autoplay muted loop playsinline preload="metadata" id="bgVideo" crossorigin="anonymous">
+      <source src="./videos/hero-bg.mp4" type="video/mp4">
       <source src="/videos/hero-bg.mp4" type="video/mp4">
       <!-- Background video for hero section -->
     </video>
@@ -520,6 +521,7 @@
       console.error('❌ Video element not found!');
     } else {
       console.log('✅ Video element found');
+      console.log('📁 Video sources:', Array.from(video.querySelectorAll('source')).map(s => s.src));
       
       // Log video events for debugging
       video.addEventListener('loadstart', () => console.log('📹 Video loading started...'));
@@ -528,7 +530,12 @@
       video.addEventListener('canplay', () => console.log('✅ Video can play'));
       video.addEventListener('playing', () => console.log('▶️ Video is playing'));
       video.addEventListener('pause', () => console.log('⏸️ Video paused'));
-      video.addEventListener('error', (e) => console.error('❌ Video error:', e, video.error));
+      video.addEventListener('error', (e) => {
+        console.error('❌ Video error:', e, video.error);
+        if (video.error) {
+          console.error('Error code:', video.error.code, 'Message:', video.error.message);
+        }
+      });
       
       function ensurePlay() {
         if (video.paused) {

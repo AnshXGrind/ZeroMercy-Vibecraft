@@ -1,105 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="supabase-url" content="%VITE_SUPABASE_URL%" />
+  <meta name="supabase-anon-key" content="%VITE_SUPABASE_ANON_KEY%" />
   <title>Register — Infinitus</title>
   <style>
     :root {
-      --bg-primary: #0b0a1a;
-      --text-primary: #eae8ff;
-      --text-accent: #38bdf8;
-      --border-subtle: rgba(255, 255, 255, 0.08);
+      --bg-primary:#0b0a1a; --text-primary:#eae8ff; --text-accent:#38bdf8; --border-subtle: rgba(255,255,255,0.08);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: Inter, system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      max-width: 420px;
-      width: 90%;
-      padding: 32px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-    }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    .muted { color: rgba(234, 232, 255, 0.6); margin-bottom: 24px; }
-    .muted a { color: var(--text-accent); text-decoration: none; }
-    .muted a:hover { text-decoration: underline; }
-    .form-group { margin-bottom: 16px; }
-    label { display: block; margin-bottom: 6px; font-size: 14px; }
-    input {
-      width: 100%;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-size: 14px;
-    }
-    input:focus { outline: none; border-color: var(--text-accent); }
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(90deg, #38bdf8, #a855f7);
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    .btn:hover { opacity: 0.9; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh}
+    .top-tab-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;width:100%;padding:0 20px;pointer-events:none}
+    .top-glass-tab{pointer-events:auto;background:transparent;border:none;color:var(--text-primary);padding:0;display:flex;gap:10px;max-width:980px;width:min(980px,96%);align-items:center;justify-content:center}
+    .top-glass-tab .tab-btn{background:transparent;border:none;color:var(--text-primary);padding:8px 14px;border-radius:999px;font-weight:600;text-decoration:none;cursor:pointer;transition:all 150ms}
+    .top-glass-tab .tab-btn:hover{background:rgba(56,189,248,0.1)}
+    .left-controls{position:fixed;left:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:10001}
+    .icon-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border:1px solid var(--border-subtle);color:var(--text-primary);text-decoration:none;transition:transform 140ms;cursor:pointer}
+    .icon-btn:hover{transform:translateY(-4px)}
+    .icon-btn svg{width:20px;height:20px}
+    .social-bar{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:9999}
+    .social-btn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border:1px solid var(--border-subtle);color:var(--text-primary);text-decoration:none;transition:transform 140ms}
+    .social-btn:hover{transform:translateY(-4px)}
+    .social-btn svg{width:20px;height:20px}
+    .container{max-width:520px;margin:100px auto 60px;padding:24px}
+    .card{background:rgba(255,255,255,0.03);border:1px solid var(--border-subtle);padding:32px;border-radius:12px;backdrop-filter:blur(6px)}
+    .card h1{font-size:1.8rem;margin-bottom:8px;font-weight:700}
+    .form-row{margin-top:16px}
+    label{display:block;font-size:0.9rem;margin-bottom:6px;color:var(--text-primary);opacity:0.9;font-weight:500}
+    input[type="text"],input[type="email"],input[type="password"],input[type="tel"]{width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);color:var(--text-primary);font-size:1rem;transition:all 200ms}
+    input:focus{outline:none;border-color:var(--text-accent);background:rgba(56,189,248,0.05)}
+    .submit{margin-top:20px;width:100%;padding:14px 18px;border-radius:8px;background:var(--text-accent);color:#071124;border:none;font-weight:700;cursor:pointer;font-size:1rem;transition:all 200ms}
+    .submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,0.4)}
+    .submit:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+    .muted{opacity:0.7;margin-top:16px;font-size:0.9rem;text-align:center}
+    .muted a{color:var(--text-accent);text-decoration:none;font-weight:600}
+    .muted a:hover{text-decoration:underline}
+    .error-msg{background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.3);color:#ff6b6b;padding:12px;border-radius:8px;margin-top:16px;font-size:0.9rem}
+    .toast{position:fixed;right:20px;bottom:20px;padding:14px 20px;background:rgba(0,0,0,0.95);color:white;border-radius:8px;font-weight:600;z-index:99999;opacity:0;transition:opacity 250ms;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+    @media (max-width:640px){.left-controls{display:none}.social-bar{right:12px;top:auto;bottom:12px;transform:none;flex-direction:row;gap:8px}.icon-btn,.social-btn{width:36px;height:36px}.container{margin:80px auto 40px;padding:16px}.card{padding:24px}}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Create Account</h1>
-    <p class="muted">Already have an account? <a href="/login">Sign in</a></p>
-    <form onsubmit="return handleRegister(event)">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="name" required placeholder="Enter your name">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="email" required placeholder="Enter your email">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" required placeholder="Create a password">
-      </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" id="confirmPassword" required placeholder="Confirm your password">
-      </div>
-      <button type="submit" class="btn">REGISTER</button>
-    </form>
+  <div class="top-tab-container">
+    <div class="top-glass-tab">
+      <a class="tab-btn" href="/event">Events</a>
+      <a class="tab-btn" href="/competition">Competition</a>
+      <a class="tab-btn" href="/workshop">Workshops</a>
+    </div>
   </div>
+
+  <div class="left-controls">
+    <a class="icon-btn" href="/" title="Home">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </a>
+    <a class="icon-btn" href="/about" title="About">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    </a>
+  </div>
+
+  <div class="social-bar">
+    <a class="social-btn" href="https://x.com/HackSRM" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+    </a>
+    <a class="social-btn" href="https://instagram.com/srmuap.infinitus" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+  </div>
+
+  <main class="container">
+    <div class="card">
+      <h1>Register for Infinitus</h1>
+      <p class="muted" style="text-align:left;margin-top:8px;opacity:0.8">Create your account to register for events and workshops.</p>
+
+      <form id="registerForm" onsubmit="return handleSubmit(event)">
+        <div class="form-row">
+          <label for="name">Full Name *</label>
+          <input id="name" name="name" type="text" required placeholder="John Doe" />
+        </div>
+        <div class="form-row">
+          <label for="email">Email *</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="your@email.com" />
+        </div>
+        <div class="form-row">
+          <label for="password">Password *</label>
+          <input id="password" name="password" type="password" required autocomplete="new-password" placeholder="At least 8 characters" minlength="8" />
+        </div>
+        <div class="form-row">
+          <label for="college">College/University</label>
+          <input id="college" name="college" type="text" placeholder="Your institution" />
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" />
+        </div>
+        <div id="errorContainer"></div>
+        <button class="submit" type="submit" id="submitBtn">Create Account</button>
+      </form>
+      <p class="muted">Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    function handleRegister(e) {
+    const toast = document.getElementById('toast');
+    const errorContainer = document.getElementById('errorContainer');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showToast(msg, duration = 3000) {
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.style.opacity = '0', duration);
+    }
+
+    function showError(msg) {
+      errorContainer.innerHTML = `<div class="error-msg">${msg}</div>`;
+    }
+
+    function clearError() {
+      errorContainer.innerHTML = '';
+    }
+
+    // Initialize Supabase
+    const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
+    const SUPABASE_ANON_KEY = document.querySelector('meta[name="supabase-anon-key"]')?.content || '';
+
+    let supabaseClient = null;
+    if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('%')) {
+      try {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase initialized');
+      } catch (e) {
+        console.error('Supabase init error:', e);
+      }
+    }
+
+    async function handleSubmit(e) {
       e.preventDefault();
+      clearError();
+
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      
-      if(!name || !email){ alert('Please enter valid details'); return false; }
-      if(password !== confirmPassword){ alert('Passwords do not match'); return false; }
-      if(password.length < 6){ alert('Password must be at least 6 characters'); return false; }
-      
-      alert('Registration successful (demo) — redirecting to login');
-      location.href = '/login.html';
+      const college = document.getElementById('college').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!name || !email || !password) {
+        showError('Please fill in all required fields');
+        return false;
+      }
+
+      if (password.length < 8) {
+        showError('Password must be at least 8 characters');
+        return false;
+      }
+
+      if (!supabaseClient) {
+        showError('Authentication service not configured. Please contact support.');
+        return false;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account...';
+
+      try {
+        // Sign up with Supabase Auth
+        const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              name,
+              college,
+              phone
+            }
+          }
+        });
+
+        if (authError) {
+          showError(authError.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
+          return false;
+        }
+
+        if (authData.user) {
+          // Create profile in profiles table
+          const { error: profileError } = await supabaseClient
+            .from('profiles')
+            .insert([{
+              id: authData.user.id,
+              email: authData.user.email,
+              name,
+              college: college || null,
+              phone: phone || null
+            }]);
+
+          if (profileError) {
+            console.error('Profile creation error:', profileError);
+            // Continue anyway - profile might auto-create via trigger
+          }
+
+          showToast('✓ Account created successfully!', 2000);
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 1200);
+        }
+      } catch (err) {
+        console.error('Registration error:', err);
+        showError('Network error. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+      }
+
       return false;
+    }
+
+    // Check if already logged in
+    if (supabaseClient) {
+      supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          window.location.href = '/dashboard';
+        }
+      });
     }
   </script>
 </body>

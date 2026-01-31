@@ -1,0 +1,28 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase configuration. Please check your .env.local file.');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined
+  }
+});
+
+// Helper functions
+export const getCurrentUser = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.user || null;
+};
+
+export const getSession = async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session;
+};
