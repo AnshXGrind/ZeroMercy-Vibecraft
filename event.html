@@ -79,7 +79,7 @@
       cursor: pointer;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       letter-spacing: 1px;
       display: flex;
       align-items: center;
@@ -117,7 +117,7 @@
 
     .header-box {
       text-align: center;
-      margin-bottom: 80px;
+      margin-bottom: 60px;
     }
 
     .header-box h1 {
@@ -140,74 +140,102 @@
       letter-spacing: 1px;
     }
 
-    /* Grid Layout (simplified) */
+    /* Grid Layout */
     .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
     }
 
     .card-3d-container {
-      height: auto;
+      height: 400px;
+      perspective: 1500px;
       cursor: pointer;
     }
 
     .card-3d {
-      display: flex;
-      flex-direction: column;
-      border-radius: 16px;
+      height: 100%;
+      border-radius: 24px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
-      transition: transform 180ms ease, box-shadow 180ms ease;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+      background: rgba(234, 232, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
     }
 
     .card-3d:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 25px 60px rgba(56, 189, 248, 0.2);
     }
 
     .card-media {
-      height: 160px;
+      position: absolute;
+      inset: 0;
       background-size: cover;
       background-position: center;
-      filter: brightness(0.92);
+      transform: translateZ(20px);
+      filter: brightness(0.85);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .card-3d:hover .card-media {
+      filter: brightness(0.5) scale(1.05);
     }
 
     .card-body {
-      padding: 20px;
+      position: absolute;
+      inset: 0;
+      padding: 32px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      justify-content: flex-end;
+      background: linear-gradient(0deg, rgba(11, 10, 26, 0.95) 0%, transparent 60%);
+      transform: translateZ(60px);
     }
 
     .card-title {
       font-weight: 800;
-      font-size: 1.15rem;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
       color: #fff;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 1px;
     }
 
     .card-desc {
       font-size: 0.95rem;
-      color: rgba(234, 232, 255, 0.85);
-      line-height: 1.45;
-      max-height: 3.6em;
-      overflow: hidden;
+      color: rgba(234, 232, 255, 0.8);
+      margin-bottom: 16px;
+      line-height: 1.5;
     }
 
     .card-actions {
       display: flex;
-      justify-content: space-between;
       align-items: center;
     }
 
     .card-link {
       color: var(--text-accent);
       font-weight: 700;
-      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .card-3d:hover .card-link svg {
+      transform: translateX(5px);
     }
 
     /* Sub-header between navbar and cards */
