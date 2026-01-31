@@ -329,59 +329,10 @@
 
 <body>
     <div class="top-tab-container">
-        <div class="top-glass-tab">
-            <a class="tab-btn" href="/">Home</a>
-            <a class="tab-btn" href="/event">Event</a>
-            <a class="tab-btn" href="/competition">Competition</a>
-            <a class="tab-btn" href="/workshop">Workshop</a>
-            <a class="tab-btn" href="/about">About</a>
-        </div>
+        <!-- Nav injected by auth-nav.js -->
     </div>
-
-    <div class="social-bar" style="display:flex; gap:10px; align-items:center; justify-content:flex-end; max-width:1000px; margin:8px auto 0; padding:6px 18px;">
-        <a class="icon-btn" href="https://instagram.com/" target="_blank" rel="noreferrer noopener" title="Instagram" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A3.8 3.8 0 1 0 15.8 12 3.8 3.8 0 0 0 12 8.2zM17.5 6.5a.9.9 0 1 1-.9-.9.9.9 0 0 1 .9.9z"/></svg>
-        </a>
-        <a class="icon-btn" href="https://twitter.com/" target="_blank" rel="noreferrer noopener" title="X" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M22 5.9c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.5-1.8-.6.4-1.4.6-2.2.8C18.8 4.7 17.9 4 16.8 4c-1.9 0-3.4 1.8-3 3.6C9.7 7.4 7 6 5 4.1c-.7 1.2-.4 2.6.6 3.3-.5 0-1-.2-1.4-.4v.1c0 1.6 1.1 3 2.6 3.3-.5.1-1 .2-1.6.1.5 1.6 2 2.8 3.7 2.8C8.1 15.1 6.5 15.6 4.9 15.6c-.4 0-.7 0-1.1-.1C5 17 7.2 18 9.6 18c6.5 0 10-5.7 9.8-10.8.7-.5 1.3-1.1 1.8-1.8-.6.2-1.2.4-1.8.5z"/></svg>
-        </a>
-        <a class="icon-btn" href="https://facebook.com/" target="_blank" rel="noreferrer noopener" title="Facebook" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M22 12a10 10 0 1 0-11.5 9.8v-6.9H8v-2.9h2.5V9.4c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5H15c-1.2 0-1.6.8-1.6 1.6v1.9h2.8l-.4 2.9H13.5V21.8A10 10 0 0 0 22 12z"/></svg>
-        </a>
-        <a class="icon-btn" href="https://youtube.com/" target="_blank" rel="noreferrer noopener" title="YouTube" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M10 15l5.2-3L10 9v6z"/><path d="M21.6 7.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C15.9 3.6 12 3.6 12 3.6h-.1s-3.9 0-6.7.2c-.4 0-1.3 0-2.1 1C2.6 5.6 2.4 7.2 2.4 7.2S2 9 2 10.9v2.2C2 16 5 17.4 5 17.4s3.9 1.1 7 .9c3.1-.2 7-.9 7-.9s2.6-1.4 2.6-4.3V10.9c0-1.9-.6-3.7-.9-3.7z"/></svg>
-        </a>
-
+    <!-- Social bar handled by auth-nav.js -->
     <!-- Auth nav injected dynamically by auth-nav.js -->
-
-    <div class="left-controls">
-        <a class="icon-btn" href="/" aria-label="Home" title="Home">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-            </svg>
-        </a>
-        <a class="icon-btn" href="/sponsors" aria-label="Sponsors" title="Our Sponsors">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polygon
-                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-        </a>
-        
-        <a class="icon-btn active" href="/faq" aria-label="FAQ" title="FAQ">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 12.9 12 13.5 12 15h-2v-.5c0-1 .45-1.75 1.17-2.5l1.24-1.26A1.75 1.75 0 0012.5 8.5c0-.97.78-1.75 1.75-1.75S16 7.53 16 8.5c0 1.2-.5 1.99-1.93 2.99z" />
-            </svg>
-        </a>
-        <a class="icon-btn" href="/about" aria-label="About" title="About">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-            </svg>
-        </a>
-    </div>
-
-    <!-- Social nav injected dynamically by auth-nav.js -->
 
     <main class="faq-container">
         <div class="faq-header">
@@ -561,6 +512,7 @@
     <!-- Auth System -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/auth-nav.js"></script>
+    <script src="/scripts/social.js"></script>
 </body>
 
 </html>
