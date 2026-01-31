@@ -513,27 +513,54 @@
       });
     })();
 
-    // Ensure video always plays
+    // Enhanced video playback with diagnostics
     const video = document.getElementById('bgVideo');
-
-    function ensurePlay() {
-      if (video.paused) {
-        video.play().catch(() => setTimeout(ensurePlay, 100));
+    
+    if (!video) {
+      console.error('❌ Video element not found!');
+    } else {
+      console.log('✅ Video element found');
+      
+      // Log video events for debugging
+      video.addEventListener('loadstart', () => console.log('📹 Video loading started...'));
+      video.addEventListener('loadedmetadata', () => console.log('✅ Video metadata loaded'));
+      video.addEventListener('loadeddata', () => console.log('✅ Video data loaded'));
+      video.addEventListener('canplay', () => console.log('✅ Video can play'));
+      video.addEventListener('playing', () => console.log('▶️ Video is playing'));
+      video.addEventListener('pause', () => console.log('⏸️ Video paused'));
+      video.addEventListener('error', (e) => console.error('❌ Video error:', e, video.error));
+      
+      function ensurePlay() {
+        if (video.paused) {
+          console.log('Attempting to play video...');
+          video.play().then(() => {
+            console.log('✅ Video play succeeded');
+          }).catch((error) => {
+            console.warn('⚠️ Autoplay blocked:', error.message);
+            console.log('💡 Click anywhere to start video');
+          });
+        }
       }
+
+      // Try to play when metadata is loaded
+      video.addEventListener('loadedmetadata', ensurePlay);
+      
+      // Try to play when data is loaded
+      video.addEventListener('loadeddata', ensurePlay);
+
+      // Resume on visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) ensurePlay();
+      });
+
+      // Resume on user interaction (for autoplay policy)
+      ['click', 'touchstart', 'keydown'].forEach(evt => {
+        document.addEventListener(evt, ensurePlay, { once: true });
+      });
+      
+      // Force initial play attempt
+      setTimeout(ensurePlay, 100);
     }
-
-    // Play on load
-    video.addEventListener('loadeddata', ensurePlay);
-
-    // Resume on visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) ensurePlay();
-    });
-
-    // Resume on user interaction
-    ['click', 'touchstart', 'keydown'].forEach(evt => {
-      document.addEventListener(evt, ensurePlay, { once: true });
-    });
 
     // Register service worker (for PWA/offline support)
     if ('serviceWorker' in navigator) {
