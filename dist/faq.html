@@ -329,15 +329,67 @@
                 transform: translateX(10%);
             }
         }
+
+        /* Login Button (top right) */
+        .login-btn {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 32px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-btn:hover,
+        .login-btn:focus-visible {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.06) skew(-2deg);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 880px) {
+            .login-btn {
+                padding: 8px 24px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="top-tab-container">
-        <!-- Nav injected by auth-nav.js -->
+    <!-- Login button (top right) -->
+    <div class="top-right-controls">
+        <a class="login-btn" href="/login.html">LOGIN</a>
     </div>
-    <!-- Social bar handled by auth-nav.js -->
-    <!-- Auth nav injected dynamically by auth-nav.js -->
+
+    <div class="top-tab-container">
+        <nav class="top-glass-tab">
+            <a class="tab-btn" href="/" title="Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                HOME
+            </a>
+            <a class="tab-btn" href="/event.html">EVENTS</a>
+            <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
+            <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
+        </nav>
+    </div>
 
     <main class="faq-container">
         <div class="faq-header">
