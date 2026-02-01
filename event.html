@@ -8,14 +8,20 @@
   <title>Event — Infinitus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preload" href="https://images.unsplash.com" as="image" crossorigin>
   <!-- Critical CSS to prevent FOUC/flickering -->
   <style>
-    html { visibility: visible; opacity: 1; }
-    .top-tab-container, .top-right-controls {
+    html {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .top-tab-container,
+    .top-right-controls {
       visibility: visible !important;
       opacity: 1 !important;
     }
@@ -450,10 +456,7 @@
 
   <div class="top-tab-container">
     <nav class="top-glass-tab">
-      <a class="tab-btn" href="/" title="Home">HOME</a>
-      <a class="tab-btn active" href="/event.html">EVENTS</a>
-      <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
-      <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
+      <!-- Cleared for non-home page -->
     </nav>
   </div>
 
@@ -556,8 +559,8 @@
   <script>
     (function () {
       const events = [
-        { 
-          title: 'Aloha - Tropical Paradise', 
+        {
+          title: 'Aloha - Tropical Paradise',
           imageUrl: '/images/events/aloha-1.jpg',
           details: `
             <p>Dive into a tropical paradise at Aloha! Experience vibrant Hawaiian culture with traditional dances, fire performances, and island music.</p>

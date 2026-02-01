@@ -9,11 +9,17 @@
   <title>Sign In — Infinitus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <!-- Critical CSS to prevent FOUC/flickering -->
   <style>
-    html { visibility: visible; opacity: 1; }
-    .top-tab-container, .top-right-controls {
+    html {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .top-tab-container,
+    .top-right-controls {
       visibility: visible !important;
       opacity: 1 !important;
     }
@@ -127,11 +133,14 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.02);
       color: var(--text-primary);
-      font-size: 16px; /* Prevent iOS zoom on focus */
+      font-size: 16px;
+      /* Prevent iOS zoom on focus */
       transition: all 200ms;
-      -webkit-appearance: none; /* Remove iOS default styling */
+      -webkit-appearance: none;
+      /* Remove iOS default styling */
       appearance: none;
-      min-height: 44px; /* Ensure minimum touch target */
+      min-height: 44px;
+      /* Ensure minimum touch target */
     }
 
     input[type="email"]:focus,
@@ -155,7 +164,8 @@
       cursor: pointer;
       font-size: 1rem;
       transition: all 200ms;
-      min-height: 48px; /* Ensure minimum touch target */
+      min-height: 48px;
+      /* Ensure minimum touch target */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -168,7 +178,8 @@
     }
 
     .submit:focus {
-      outline: none; /* Managed by :focus-visible */
+      outline: none;
+      /* Managed by :focus-visible */
     }
 
     .submit:disabled {
@@ -235,10 +246,7 @@
 <body>
   <div class="top-tab-container">
     <nav class="top-glass-tab">
-      <a class="tab-btn" href="/">HOME</a>
-      <a class="tab-btn" href="/event.html">EVENTS</a>
-      <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
-      <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
+      <!-- Cleared for non-home page -->
     </nav>
   </div>
 
@@ -263,104 +271,104 @@
       </form>
       <p class="muted">Don't have an account? <a href="/register">Create one</a></p>
     </div>
-  </main>
+    </main>
 
-  <div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const toast = document.getElementById('toast');
-    const errorContainer = document.getElementById('errorContainer');
-    const submitBtn = document.getElementById('submitBtn');
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const toast = document.getElementById('toast');
+      const errorContainer = document.getElementById('errorContainer');
+      const submitBtn = document.getElementById('submitBtn');
 
-    function showToast(msg, duration = 3000) {
-      toast.textContent = msg;
-      toast.style.opacity = '1';
-      clearTimeout(toast._timer);
-      toast._timer = setTimeout(() => toast.style.opacity = '0', duration);
-    }
-
-    function showError(msg) {
-      errorContainer.innerHTML = `<div class="error-msg">${msg}</div>`;
-    }
-
-    function clearError() {
-      errorContainer.innerHTML = '';
-    }
-
-    // Initialize Supabase
-    const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
-    const SUPABASE_ANON_KEY = document.querySelector('meta[name="supabase-anon-key"]')?.content || '';
-
-    let supabaseClient = null;
-    if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('%')) {
-      try {
-        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Supabase initialized');
-      } catch (e) {
-        console.error('Supabase init error:', e);
-      }
-    }
-
-    async function handleSubmit(e) {
-      e.preventDefault();
-      clearError();
-
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        showError('Please enter both email and password');
-        return false;
+      function showToast(msg, duration = 3000) {
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.style.opacity = '0', duration);
       }
 
-      if (!supabaseClient) {
-        showError('Authentication service not configured. Please contact support.');
-        return false;
+      function showError(msg) {
+        errorContainer.innerHTML = `<div class="error-msg">${msg}</div>`;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Signing in...';
+      function clearError() {
+        errorContainer.innerHTML = '';
+      }
 
-      try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
+      // Initialize Supabase
+      const SUPABASE_URL = document.querySelector('meta[name="supabase-url"]')?.content || '';
+      const SUPABASE_ANON_KEY = document.querySelector('meta[name="supabase-anon-key"]')?.content || '';
 
-        if (error) {
-          showError(error.message);
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Sign In';
+      let supabaseClient = null;
+      if (SUPABASE_URL && SUPABASE_ANON_KEY && !SUPABASE_URL.includes('%')) {
+        try {
+          supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          console.log('✅ Supabase initialized');
+        } catch (e) {
+          console.error('Supabase init error:', e);
+        }
+      }
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+        clearError();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          showError('Please enter both email and password');
           return false;
         }
 
-        if (data.user) {
-          showToast('✓ Signed in successfully', 1500);
-          setTimeout(() => {
-            window.location.href = '/dashboard';
-          }, 800);
+        if (!supabaseClient) {
+          showError('Authentication service not configured. Please contact support.');
+          return false;
         }
-      } catch (err) {
-        console.error('Sign in error:', err);
-        showError('Network error. Please try again.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign In';
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Signing in...';
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) {
+            showError(error.message);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In';
+            return false;
+          }
+
+          if (data.user) {
+            showToast('✓ Signed in successfully', 1500);
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 800);
+          }
+        } catch (err) {
+          console.error('Sign in error:', err);
+          showError('Network error. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In';
+        }
+
+        return false;
       }
 
-      return false;
-    }
-
-    // Check if already logged in
-    if (supabaseClient) {
-      supabaseClient.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-          window.location.href = '/dashboard';
-        }
-      });
-    }
-  </script>
-  <script src="/auth-nav.js"></script>
+      // Check if already logged in
+      if (supabaseClient) {
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+          if (session) {
+            window.location.href = '/dashboard';
+          }
+        });
+      }
+    </script>
+    <script src="/auth-nav.js"></script>
 </body>
 
 </html>
