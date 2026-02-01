@@ -513,34 +513,42 @@
   <script>
     (function () {
       const events = [
-        { title: 'Car Rally', imageSeed: 'carrally' },
+        { 
+          title: 'Aloha - Tropical Paradise', 
+          imageUrl: '/images/events/aloha-1.jpg',
+          details: `
+            <p>Dive into a tropical paradise at Aloha! Experience vibrant Hawaiian culture with traditional dances, fire performances, and island music.</p>
+            <p>Dress in your best tropical attire and enjoy exotic drinks, beach games, and unforgettable memories under the stars.</p>
+          `
+        },
+        { title: 'Car Rally', imageUrl: '/images/events/aloha-2.jpg' },
         {
           title: 'Music Night',
-          imageSeed: 'music',
+          imageUrl: '/images/events/aloha-3.jpg',
           details: `
             <p>Music Night is an open-air celebration of sound, rhythm, and collective energy. Featuring live bands, independent artists, and campus performers, the night flows across genres—from acoustic melodies and indie rock to high-energy crowd anthems.</p>
             <p>With professional-grade sound systems, immersive lighting, and a massive audience, Music Night transforms the campus into a vibrant concert arena.</p>
           `
         },
-        { title: 'Dj Campfire', imageSeed: 'campfire' },
+        { title: 'Dj Campfire', imageUrl: '/images/events/aloha-4.jpg' },
         {
           title: 'Game Night',
-          imageSeed: 'gaming',
+          imageUrl: '/images/events/aloha-5.jpg',
           details: `
             <p>Game Night turns competition into celebration. A dedicated gaming arena comes alive with intense esports battles, casual multiplayer matches, and interactive party games.</p>
           `
         },
         {
           title: 'Movie Night',
-          imageSeed: 'movie',
+          imageUrl: '/images/events/aloha-6.jpg',
           details: `
             <p>Movie Night is a laid-back cinematic retreat amidst the high-energy festivities. Featuring a carefully selected film, the campus transforms into an open-air theatre.</p>
           `
         },
-        { title: 'Inauguration Ceremony', imageSeed: 'ceremony' },
+        { title: 'Inauguration Ceremony', imageUrl: '/images/events/aloha-7.jpg' },
         {
           title: 'Super Car Expo',
-          imageSeed: 'supercar',
+          imageUrl: '/images/events/aloha-8.jpg',
           details: `<p>The Super Car Expo brings global automotive excellence straight to campus. Featuring luxury, exotic, and high-performance vehicles.</p>`
         },
         {
@@ -628,7 +636,7 @@
 
         events.forEach((ev, i) => {
           const seed = ev.imageSeed || i;
-          const imgUrl = `https://picsum.photos/seed/${seed}/800/600`;
+          const imgUrl = ev.imageUrl || `https://picsum.photos/seed/${seed}/800/600`;
 
           const cont = document.createElement('div');
           cont.className = 'card-3d-container';
@@ -653,7 +661,7 @@
           `;
 
           cont.addEventListener('click', () => {
-            const large = `https://picsum.photos/seed/${seed}/1200/800`;
+            const large = ev.imageUrl || `https://picsum.photos/seed/${seed}/1200/800`;
             openLightbox(large, ev.title, ev.details);
           });
 

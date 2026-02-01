@@ -57,54 +57,137 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
       width: 100%;
       padding: 0 20px;
-      pointer-events: none;
     }
 
     .top-glass-tab {
       pointer-events: auto;
       background: transparent;
+      backdrop-filter: none;
+      border: none;
+      color: var(--text-primary);
+      padding: 0;
+      border-radius: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+      opacity: 0.98;
       display: flex;
-      gap: 12px;
-      max-width: 1000px;
-      width: min(1000px, 96%);
+      gap: 10px;
+      max-width: 980px;
+      width: min(980px, 96%);
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
     }
 
     .top-glass-tab .tab-btn {
       background: transparent;
       border: none;
       color: var(--text-primary);
-      padding: 10px 20px;
+      padding: 8px 14px;
       border-radius: 999px;
       font-weight: 600;
       cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .top-glass-tab .tab-btn svg {
-      width: 14px;
-      height: 14px;
-      opacity: 0.8;
-      transition: opacity 0.3s ease;
-    }
-
-    .top-glass-tab .tab-btn:hover svg {
-      opacity: 1;
+      text-decoration: none !important;
+      transition: background 150ms ease, transform 150ms ease;
+      backdrop-filter: none;
+      pointer-events: auto;
     }
 
     .top-glass-tab .tab-btn:hover {
+      background: rgba(56, 189, 248, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .top-glass-tab .tab-btn.active {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.12), rgba(168, 85, 247, 0.08));
+      box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06), 0 0 18px rgba(168, 85, 247, 0.04);
+      color: #38bdf8;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Left icon controls */
+    .left-controls {
+      position: fixed;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      z-index: 10001;
+    }
+
+    .icon-btn {
+      width: 52px;
+      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .icon-btn:hover,
+    .icon-btn:focus-visible {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
       background: rgba(56, 189, 248, 0.1);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.3);
+      outline: 2px solid rgba(56, 189, 248, 0.5);
+      outline-offset: 2px;
+    }
+
+    .icon-btn:focus {
+      outline: none;
+    }
+
+    .icon-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    @media (max-width: 880px) {
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      .icon-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .left-controls {
+        display: none !important;
+      }
+
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .icon-btn svg {
+        width: 18px;
+        height: 18px;
+      }
     }
 
     .container {
@@ -289,38 +372,50 @@
 
 <body>
   <div class="top-tab-container">
-    <!-- Nav injected by auth-nav.js -->
+    <nav class="top-glass-tab">
+      <a class="tab-btn" href="/event.html">EVENTS</a>
+      <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
+      <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
+      <a class="tab-btn" href="/about.html">ABOUT</a>
+    </nav>
   </div>
 
-  <div class="social-bar"
-    style="display:flex; gap:10px; align-items:center; justify-content:flex-end; max-width:1000px; margin:8px auto 0; padding:6px 18px;">
-    <a class="icon-btn" href="https://instagram.com/" target="_blank" rel="noreferrer noopener" title="Instagram"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A3.8 3.8 0 1 0 15.8 12 3.8 3.8 0 0 0 12 8.2zM17.5 6.5a.9.9 0 1 1-.9-.9.9.9 0 0 1 .9.9z" />
+  <!-- Left side icons -->
+  <div class="left-controls" aria-label="Quick navigation">
+    <a class="icon-btn" href="/" aria-label="Home" title="Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
       </svg>
     </a>
-    <a class="icon-btn" href="https://twitter.com/" target="_blank" rel="noreferrer noopener" title="X"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M22 5.9c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.5-1.8-.6.4-1.4.6-2.2.8C18.8 4.7 17.9 4 16.8 4c-1.9 0-3.4 1.8-3 3.6C9.7 7.4 7 6 5 4.1c-.7 1.2-.4 2.6.6 3.3-.5 0-1-.2-1.4-.4v.1c0 1.6 1.1 3 2.6 3.3-.5.1-1 .2-1.6.1.5 1.6 2 2.8 3.7 2.8C8.1 15.1 6.5 15.6 4.9 15.6c-.4 0-.7 0-1.1-.1C5 17 7.2 18 9.6 18c6.5 0 10-5.7 9.8-10.8.7-.5 1.3-1.1 1.8-1.8-.6.2-1.2.4-1.8.5z" />
+    <a class="icon-btn" href="/sponsors.html" aria-label="Sponsors" title="Our Sponsors">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-5.82 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
       </svg>
     </a>
-    <a class="icon-btn" href="https://facebook.com/" target="_blank" rel="noreferrer noopener" title="Facebook"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M22 12a10 10 0 1 0-11.5 9.8v-6.9H8v-2.9h2.5V9.4c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5H15c-1.2 0-1.6.8-1.6 1.6v1.9h2.8l-.4 2.9H13.5V21.8A10 10 0 0 0 22 12z" />
+    <a class="icon-btn" href="/stalls.html" aria-label="Stalls" title="Visit Stalls">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3 3v18h18" />
+        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
       </svg>
     </a>
-    <a class="icon-btn" href="https://youtube.com/" target="_blank" rel="noreferrer noopener" title="YouTube"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path d="M10 15l5.2-3L10 9v6z" />
-        <path
-          d="M21.6 7.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C15.9 3.6 12 3.6 12 3.6h-.1s-3.9 0-6.7.2c-.4 0-1.3 0-2.1 1C2.6 5.6 2.4 7.2 2.4 7.2S2 9 2 10.9v2.2C2 16 5 17.4 5 17.4s3.9 1.1 7 .9c3.1-.2 7-.9 7-.9s2.6-1.4 2.6-4.3V10.9c0-1.9-.6-3.7-.9-3.7z" />
+    <a class="icon-btn" href="/faq.html" aria-label="FAQ" title="FAQ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <path d="M12 17h.01" />
+      </svg>
+    </a>
+    <a class="icon-btn" href="/about.html" aria-label="About" title="About">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="16" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12.01" y2="8" />
       </svg>
     </a>
   </div>
@@ -471,11 +566,33 @@
             if (!profileResponse.ok) {
               const errorData = await profileResponse.json();
               console.error('Profile API error:', errorData);
-              throw new Error(errorData.error || 'Failed to create profile');
+              
+              // If it's a 404 (API not found), try direct client insert as fallback
+              if (profileResponse.status === 404) {
+                console.log('API endpoint not found, attempting direct profile creation...');
+                const { error: profileInsertError } = await supabaseClient
+                  .from('profiles')
+                  .insert([{
+                    id: authData.user.id,
+                    email: authData.user.email,
+                    name,
+                    college: college || null,
+                    phone: phone || null,
+                    role: 'user'
+                  }]);
+                
+                if (profileInsertError) {
+                  console.error('Direct profile insert failed:', profileInsertError);
+                  throw new Error(profileInsertError.message);
+                }
+                console.log('✅ Profile created via direct insert');
+              } else {
+                throw new Error(errorData.error || 'Failed to create profile');
+              }
             }
           } catch (profileError) {
             console.error('Profile creation failed:', profileError);
-            showError('Database error saving new user');
+            showError(`Database error: ${profileError.message}. Please contact support or try logging in.`);
             submitBtn.disabled = false;
             submitBtn.textContent = 'Create Account';
             return false;
@@ -483,7 +600,7 @@
 
           showToast('Account created successfully!', 2000);
           setTimeout(() => {
-            window.location.href = '/dashboard';
+            window.location.href = '/index.html';
           }, 1200);
         }
       } catch (err) {
