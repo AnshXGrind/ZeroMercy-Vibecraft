@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5.0,user-scalable=yes">
+  <meta name="description" content="Register for competitions at Infinitus - SRM's premier tech fest. Feb 25-28, 2026.">
+  <meta name="supabase-url" content="%VITE_SUPABASE_URL%">
+  <meta name="supabase-anon-key" content="%VITE_SUPABASE_ANON_KEY%">
+  <title>Competition Registration — Infinitus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0a1a;
+      --text-primary: #eae8ff;
+      --text-accent: #38bdf8;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --neon-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', system-ui, -apple-system, sans-serif !important;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      letter-spacing: 0.5px;
+      padding: 100px 24px 60px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      transition: transform 0.2s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-4px);
+    }
+
+    .back-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      background: linear-gradient(to bottom, #fff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      color: rgba(234, 232, 255, 0.7);
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-accent);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: 'Orbitron', system-ui, -apple-system, sans-serif !important;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--neon-purple);
+      background: rgba(168, 85, 247, 0.05);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .competition-select {
+      margin-bottom: 32px;
+    }
+
+    .competition-select select {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 18px;
+    }
+
+    .team-section {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border-subtle);
+    }
+
+    .team-section h3 {
+      font-size: 1.2rem;
+      color: var(--neon-purple);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      text-transform: none;
+      color: var(--text-primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--neon-purple), var(--text-accent));
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+
+    .message.success {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #a855f7;
+    }
+
+    .message.error {
+      background: rgba(255, 60, 172, 0.1);
+      border: 1px solid rgba(255, 60, 172, 0.3);
+      color: #ff3cac;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 80px 16px 40px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="/competition.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Competitions
+    </a>
+
+    <h1>Compete & Win</h1>
+    <p class="subtitle">Register for competitions and showcase your skills</p>
+
+    <form id="registration-form">
+      <div class="form-group competition-select">
+        <label for="competition">Select Competition *</label>
+        <select id="competition" name="competition" required>
+          <option value="">Choose a competition...</option>
+          <option value="hacksrm">HackSRM 7.0 (Flagship)</option>
+          <option value="murder-mystery">Murder Mystery</option>
+          <option value="esports">eSports Championship</option>
+          <option value="ideathon">Ideathon</option>
+          <option value="brainstorm">Brainstorm Royale</option>
+          <option value="ganithpati">GanithPati - Math Challenge</option>
+          <option value="cube-clash">Cube Clash - Rubik's Cube</option>
+          <option value="tech-quiz">Tech Quiz Challenge</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" name="phone" required placeholder="+91 98765 43210">
+      </div>
+
+      <div class="form-group">
+        <label for="college">College/University *</label>
+        <input type="text" id="college" name="college" required placeholder="Your college name">
+      </div>
+
+      <div class="form-group">
+        <label for="year">Year of Study</label>
+        <select id="year" name="year">
+          <option value="">Select year...</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+          <option value="pg">Post Graduate</option>
+        </select>
+      </div>
+
+      <div class="team-section">
+        <h3>Team Details</h3>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="is-team" name="is_team">
+          <label for="is-team">Registering as a team</label>
+        </div>
+
+        <div id="team-fields" style="display:none;">
+          <div class="form-group">
+            <label for="team-name">Team Name *</label>
+            <input type="text" id="team-name" name="team_name" placeholder="Your awesome team name">
+          </div>
+
+          <div class="form-group">
+            <label for="team-size">Team Size *</label>
+            <input type="number" id="team-size" name="team_size" min="2" max="6" placeholder="2-6 members">
+          </div>
+
+          <div class="form-group">
+            <label for="team-members">Team Members *</label>
+            <textarea id="team-members" name="team_members" placeholder="List all team member names and emails..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Additional Notes</label>
+        <textarea id="notes" name="notes" placeholder="Any special requirements, dietary restrictions, or questions..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Register Now</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const form = document.getElementById('registration-form');
+    const messageDiv = document.getElementById('message');
+    const submitBtn = form.querySelector('.btn-submit');
+    const isTeamCheckbox = document.getElementById('is-team');
+    const teamFields = document.getElementById('team-fields');
+
+    // Toggle team fields
+    isTeamCheckbox.addEventListener('change', (e) => {
+      teamFields.style.display = e.target.checked ? 'block' : 'none';
+      const teamInputs = teamFields.querySelectorAll('input, textarea');
+      teamInputs.forEach(input => {
+        input.required = e.target.checked;
+      });
+    });
+
+    // Initialize Supabase
+    const supabaseUrl = document.querySelector('meta[name="supabase-url"]')?.content || '';
+    const supabaseKey = document.querySelector('meta[name="supabase-anon-key"]')?.content || '';
+    let supabase = null;
+
+    if (supabaseUrl && supabaseKey && !supabaseUrl.includes('%')) {
+      supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'SUBMITTING...';
+      messageDiv.innerHTML = '';
+
+      const formData = {
+        competition: document.getElementById('competition').value,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        college: document.getElementById('college').value,
+        year: document.getElementById('year').value,
+        is_team: isTeamCheckbox.checked,
+        team_name: isTeamCheckbox.checked ? document.getElementById('team-name').value : null,
+        team_size: isTeamCheckbox.checked ? document.getElementById('team-size').value : null,
+        team_members: isTeamCheckbox.checked ? document.getElementById('team-members').value : null,
+        notes: document.getElementById('notes').value,
+        registration_type: 'competition',
+        registered_at: new Date().toISOString()
+      };
+
+      try {
+        if (supabase) {
+          const { data, error } = await supabase
+            .from('competition_registrations')
+            .insert([formData]);
+
+          if (error) throw error;
+
+          messageDiv.innerHTML = `
+            <div class="message success">
+              ✓ Registration successful! Check your email for confirmation.
+            </div>
+          `;
+          form.reset();
+          teamFields.style.display = 'none';
+        } else {
+          // Fallback for demo
+          console.log('Registration data:', formData);
+          messageDiv.innerHTML = `
+            <div class="message success">
+              ✓ Registration successful! (Demo mode - no database connected)
+            </div>
+          `;
+          form.reset();
+          teamFields.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        messageDiv.innerHTML = `
+          <div class="message error">
+            ✗ Registration failed: ${error.message}. Please try again.
+          </div>
+        `;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'REGISTER NOW';
+      }
+    });
+  </script>
+</body>
+
+</html>
