@@ -140,7 +140,9 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
-      display: flex;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       align-items: center;
       justify-content: center;
       pointer-events: none;
@@ -236,7 +238,9 @@
       left: 24px;
       top: 50%;
       transform: translateY(-50%);
-      display: flex;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       flex-direction: column;
       gap: 16px;
       align-items: flex-start;
@@ -285,7 +289,9 @@
       right: 24px;
       top: 50%;
       transform: translateY(-50%);
-      display: flex;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       flex-direction: column;
       gap: 16px;
       z-index: 9999;
@@ -385,16 +391,40 @@
     }
 
 
-    /* Slanted Sign In Button */
+    /* Login Button (top right) */
     .top-right-controls {
       position: fixed;
       top: 16px;
       right: 18px;
       z-index: 10001;
-      display: flex;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       align-items: center;
       gap: 12px;
       pointer-events: auto;
+    }
+
+    .login-btn {
+      background: rgba(255, 255, 255, 0.05);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 10px 32px;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
     .signin-btn {
@@ -418,7 +448,10 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
-    .signin-btn:hover {
+    .login-btn:hover,
+    .login-btn:focus-visible,
+    .signin-btn:hover,
+    .signin-btn:focus-visible {
       background: rgba(255, 255, 255, 0.15);
       transform: scale(1.06) skew(-2deg);
       filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
@@ -431,6 +464,7 @@
         right: 10px;
       }
 
+      .login-btn,
       .signin-btn {
         padding: 8px 24px;
         font-size: 13px;
@@ -488,6 +522,11 @@
 </head>
 
 <body>
+  <!-- Login button (top right) -->
+  <div class="top-right-controls">
+    <a class="login-btn" href="/login.html">LOGIN</a>
+  </div>
+
   <div class="top-tab-container">
     <nav class="top-glass-tab">
       <a class="tab-btn" href="/event.html">EVENTS</a>
@@ -744,8 +783,6 @@
 
   <!-- Auth System -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="/auth-nav.js"></script>
-  <script src="/scripts/social.js"></script>
 </body>
 
 </html>
