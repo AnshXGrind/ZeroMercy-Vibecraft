@@ -471,11 +471,33 @@
             if (!profileResponse.ok) {
               const errorData = await profileResponse.json();
               console.error('Profile API error:', errorData);
-              throw new Error(errorData.error || 'Failed to create profile');
+              
+              // If it's a 404 (API not found), try direct client insert as fallback
+              if (profileResponse.status === 404) {
+                console.log('API endpoint not found, attempting direct profile creation...');
+                const { error: profileInsertError } = await supabaseClient
+                  .from('profiles')
+                  .insert([{
+                    id: authData.user.id,
+                    email: authData.user.email,
+                    name,
+                    college: college || null,
+                    phone: phone || null,
+                    role: 'user'
+                  }]);
+                
+                if (profileInsertError) {
+                  console.error('Direct profile insert failed:', profileInsertError);
+                  throw new Error(profileInsertError.message);
+                }
+                console.log('✅ Profile created via direct insert');
+              } else {
+                throw new Error(errorData.error || 'Failed to create profile');
+              }
             }
           } catch (profileError) {
             console.error('Profile creation failed:', profileError);
-            showError('Database error saving new user');
+            showError(`Database error: ${profileError.message}. Please contact support or try logging in.`);
             submitBtn.disabled = false;
             submitBtn.textContent = 'Create Account';
             return false;
@@ -483,7 +505,7 @@
 
           showToast('Account created successfully!', 2000);
           setTimeout(() => {
-            window.location.href = '/dashboard';
+            window.location.href = '/index.html';
           }, 1200);
         }
       } catch (err) {
