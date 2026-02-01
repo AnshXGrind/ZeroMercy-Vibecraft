@@ -38,7 +38,7 @@
         font-family: 'Orbitron', 'Inter', system-ui, sans-serif !important;
       }
       
-      /* Glass Dock Container */
+      /* Floating Navigation (No Bar) */
       .nav-dock-container {
         position: fixed;
         top: 24px;
@@ -48,81 +48,78 @@
         display: flex;
         justify-content: center;
         width: auto;
-        pointer-events: none; /* Let clicks pass through outside the dock */
+        pointer-events: none;
       }
 
       .glass-dock {
-        pointer-events: auto;
+        pointer-events: none;
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 10px 24px;
-        background: rgba(15, 15, 30, 0.6);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 999px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        transition: all 0.3s ease;
+        gap: 16px;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        border: none;
       }
 
-      .glass-dock:hover {
-        background: rgba(15, 15, 30, 0.8);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-
-      /* Dock Icons */
+      /* Floating Buttons */
       .dock-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
+        pointer-events: auto;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
-        background: transparent;
-        border: none;
+        background: rgba(15, 15, 30, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         cursor: pointer;
       }
 
       .dock-btn:hover {
         color: #fff;
         background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-3px);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+        border-color: rgba(56, 189, 248, 0.3);
       }
 
       .dock-btn.active {
         color: #38bdf8;
-        background: rgba(56, 189, 248, 0.15);
-        box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        background: rgba(56, 189, 248, 0.1);
+        border-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
       }
 
       .dock-btn svg {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       }
 
       .dock-btn:hover svg {
-        transform: scale(1.15);
+        transform: scale(1.1);
       }
 
       /* Tooltip */
       .dock-btn::after {
         content: attr(data-tooltip);
         position: absolute;
-        bottom: -35px;
+        bottom: -40px;
         left: 50%;
         transform: translateX(-50%) translateY(-10px);
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
         color: #fff;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 0.75rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.8rem;
         font-weight: 600;
         opacity: 0;
         visibility: hidden;
@@ -130,6 +127,7 @@
         white-space: nowrap;
         pointer-events: none;
         border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       }
 
       .dock-btn:hover::after {
@@ -138,18 +136,16 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      /* Divider */
+      /* Divider - Hidden in ghost mode */
       .dock-divider {
-        width: 1px;
-        height: 24px;
-        background: rgba(255, 255, 255, 0.15);
-        margin: 0 4px;
+        display: none;
       }
 
       /* Profile/Auth Button */
       .dock-auth-btn {
-        width: 42px;
-        height: 42px;
+        pointer-events: auto;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -160,14 +156,16 @@
         cursor: pointer;
         transition: all 0.3s ease;
         overflow: hidden;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       }
       
       .dock-auth-btn:hover {
-        transform: scale(1.05);
+        transform: scale(1.05) translateY(-2px);
         border-color: rgba(56, 189, 248, 0.5);
-        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
       }
-
+      
       .dock-auth-btn img {
         width: 100%;
         height: 100%;
@@ -175,31 +173,32 @@
       }
 
       .dock-auth-login {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 15, 30, 0.6);
         border: 1px dashed rgba(255, 255, 255, 0.3);
+        border-radius: 14px;
       }
       
       .dock-auth-login:hover {
-        background: rgba(56, 189, 248, 0.2);
+        background: rgba(56, 189, 248, 0.15);
         border-style: solid;
         border-color: #38bdf8;
       }
 
       @media (max-width: 640px) {
         .glass-dock {
-          padding: 8px 16px;
-          gap: 6px;
-          bottom: 20px;
-          top: auto; /* Bottom dock on mobile */
-          width: 90%;
-          justify-content: space-between;
+          padding: 0;
+          gap: 10px;
+          bottom: 24px;
+          top: auto; 
+          width: auto;
+          justify-content: center;
         }
-        .dock-btn {
-          width: 38px;
-          height: 38px;
+        .dock-btn, .dock-auth-btn {
+          width: 42px;
+          height: 42px;
         }
         .dock-btn::after {
-          bottom: 50px; /* Tooltip above on mobile */
+          bottom: 55px;
         }
       }
     `;
