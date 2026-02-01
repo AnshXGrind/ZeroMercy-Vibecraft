@@ -2,6 +2,14 @@
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard/project/opqstjxvkzdxkpzadihv/sql
 -- IMPORTANT: Run this BEFORE 01_quick_registrations.sql
 
+-- Drop existing policies if they exist (for clean re-run)
+DROP POLICY IF EXISTS "Users can view their own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users can update their own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Service role can insert profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Allow public profile creation" ON public.profiles;
+DROP POLICY IF EXISTS "Allow anon profile creation" ON public.profiles;
+
 -- Create the profiles table
 CREATE TABLE IF NOT EXISTS public.profiles (
   id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -50,11 +58,19 @@ CREATE POLICY "Admins can view all profiles"
     )
   );
 
--- Allow service role to insert profiles (for registration)
+-- Allow service role to insert profiles (for registration API)
 CREATE POLICY "Service role can insert profiles"
   ON public.profiles
   FOR INSERT
   TO service_role
+  WITH CHECK (true);
+
+-- CRITICAL: Allow anon users to insert profiles during registration
+-- This is needed for the fallback registration flow
+CREATE POLICY "Allow anon profile creation"
+  ON public.profiles
+  FOR INSERT
+  TO anon
   WITH CHECK (true);
 
 -- Function to automatically update updated_at timestamp
