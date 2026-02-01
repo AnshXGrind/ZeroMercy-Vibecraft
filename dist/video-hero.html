@@ -63,8 +63,10 @@
       width: 100vw;
       height: 100vh;
       /* Fix iOS Safari viewport height issue */
-      height: 100dvh; /* Dynamic viewport height for modern browsers */
-      min-height: -webkit-fill-available; /* Fallback for older Safari */
+      height: 100dvh;
+      /* Dynamic viewport height for modern browsers */
+      min-height: -webkit-fill-available;
+      /* Fallback for older Safari */
       overflow: hidden;
       background: var(--bg-primary);
     }
@@ -96,6 +98,7 @@
       .video-bg {
         display: none;
       }
+
       .hero-section {
         background: linear-gradient(180deg, #0b0a1a 0%, #1c1a3a 50%, #0b0a1a 100%);
       }
@@ -106,6 +109,7 @@
       .video-bg {
         display: none;
       }
+
       .hero-section {
         background: linear-gradient(180deg, #0b0a1a 0%, #1c1a3a 50%, #0b0a1a 100%);
       }
@@ -199,6 +203,7 @@
       transform: translateY(-2px) scale(1.02);
     }
 
+
     .hero-image {
       /* reduce title image size for better balance with video */
       max-width: min(72vw, 760px);
@@ -224,14 +229,9 @@
       }
     }
 
-    @media (max-width: 768px) {
-      .hero-image {
-        max-width: 95vw;
-      }
-    }
-
-    /* Left social bar (original icons) */
-    .left-social-bar {
+    /* Left icon controls (home/about) */
+    .left-controls {
+      /* vertically center left-side icons */
       position: fixed;
       left: 24px;
       top: 50%;
@@ -239,9 +239,44 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      z-index: 9999;
-      pointer-events: auto;
       align-items: flex-start;
+      z-index: 10001;
+    }
+
+    .icon-btn {
+      width: 52px;
+      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .icon-btn:hover,
+    .icon-btn:focus-visible {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+      outline: 2px solid rgba(56, 189, 248, 0.5);
+      outline-offset: 2px;
+    }
+
+    .icon-btn:focus {
+      outline: none; /* Remove default, use :focus-visible instead */
+    }
+
+    .icon-btn svg {
+      width: 24px;
+      height: 24px;
     }
 
     /* Social bar (fixed right) */
@@ -296,56 +331,6 @@
       stroke-width: 2px;
     }
 
-    /* Left icon controls (home/about) */
-    .left-controls {
-      /* vertically center left-side icons */
-      position: fixed;
-      left: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      align-items: flex-start;
-      z-index: 10001;
-    }
-
-    .icon-btn {
-      width: 52px;
-      height: 52px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      border: 1px solid var(--border-subtle);
-      color: var(--text-primary);
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(3, 9, 23, 0.55);
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    .icon-btn:hover,
-    .icon-btn:focus-visible {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 18px 36px rgba(3, 9, 23, 0.7);
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.3);
-      outline: 2px solid rgba(56, 189, 248, 0.5);
-      outline-offset: 2px;
-    }
-
-    .icon-btn:focus {
-      outline: none; /* Remove default, use :focus-visible instead */
-    }
-
-    .icon-btn svg {
-      width: 24px;
-      height: 24px;
-    }
-
     @media (max-width: 880px) {
       .social-bar {
         right: 12px;
@@ -363,6 +348,42 @@
         height: 20px;
       }
     }
+
+    @media (max-width: 640px) {
+      .left-controls {
+        display: none !important;
+      }
+
+      .social-bar {
+        right: 12px;
+        top: auto;
+        bottom: 16px;
+        transform: none;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+      }
+
+      /* Ensure minimum 44px touch targets for accessibility (WCAG 2.1) */
+      .social-btn,
+      .icon-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .social-btn svg,
+      .icon-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .move-home {
+        display: none !important;
+      }
+    }
+
 
     /* Slanted Sign In Button */
     .top-right-controls {
@@ -416,40 +437,6 @@
       }
     }
 
-    @media (max-width: 640px) {
-      .left-controls {
-        display: none !important;
-      }
-
-      .social-bar {
-        right: 12px;
-        top: auto;
-        bottom: 16px;
-        transform: none;
-        flex-direction: row;
-        gap: 10px;
-        align-items: center;
-      }
-
-      /* Ensure minimum 44px touch targets for accessibility (WCAG 2.1) */
-      .social-btn,
-      .icon-btn {
-        width: 44px;
-        height: 44px;
-        min-width: 44px;
-        min-height: 44px;
-      }
-
-      .social-btn svg,
-      .icon-btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .move-home {
-        display: none !important;
-      }
-    }
 
     /* Countdown Timer */
     .countdown-container {
@@ -502,51 +489,19 @@
 
 <body>
   <div class="top-tab-container">
-    <!-- Nav injected by auth-nav.js -->
+    <nav class="top-glass-tab">
+      <a class="tab-btn" href="/event.html">EVENTS</a>
+      <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
+      <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
+    </nav>
   </div>
 
-  <div class="header-socials"
-    style="display:flex; gap:10px; align-items:center; justify-content:flex-end; max-width:1000px; margin:8px auto 0; padding:6px 18px;">
-    <!-- Keeps existing header icons, but renamed container so auth-nav.js doesn't overwrite it -->
-    <a class="icon-btn" href="https://instagram.com/" target="_blank" rel="noreferrer noopener" title="Instagram"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2A3.8 3.8 0 1 0 15.8 12 3.8 3.8 0 0 0 12 8.2zM17.5 6.5a.9.9 0 1 1-.9-.9.9.9 0 0 1 .9.9z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="https://twitter.com/" target="_blank" rel="noreferrer noopener" title="X"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M22 5.9c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.5-1.8-.6.4-1.4.6-2.2.8C18.8 4.7 17.9 4 16.8 4c-1.9 0-3.4 1.8-3 3.6C9.7 7.4 7 6 5 4.1c-.7 1.2-.4 2.6.6 3.3-.5 0-1-.2-1.4-.4v.1c0 1.6 1.1 3 2.6 3.3-.5.1-1 .2-1.6.1.5 1.6 2 2.8 3.7 2.8C8.1 15.1 6.5 15.6 4.9 15.6c-.4 0-.7 0-1.1-.1C5 17 7.2 18 9.6 18c6.5 0 10-5.7 9.8-10.8.7-.5 1.3-1.1 1.8-1.8-.6.2-1.2.4-1.8.5z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="https://facebook.com/" target="_blank" rel="noreferrer noopener" title="Facebook"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path
-          d="M22 12a10 10 0 1 0-11.5 9.8v-6.9H8v-2.9h2.5V9.4c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.5H15c-1.2 0-1.6.8-1.6 1.6v1.9h2.8l-.4 2.9H13.5V21.8A10 10 0 0 0 22 12z" />
-      </svg>
-    </a>
-    <a class="icon-btn" href="https://youtube.com/" target="_blank" rel="noreferrer noopener" title="YouTube"
-      style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-        <path d="M10 15l5.2-3L10 9v6z" />
-        <path
-          d="M21.6 7.2s-.2-1.6-.8-2.3c-.8-.9-1.7-.9-2.1-1C15.9 3.6 12 3.6 12 3.6h-.1s-3.9 0-6.7.2c-.4 0-1.3 0-2.1 1C2.6 5.6 2.4 7.2 2.4 7.2S2 9 2 10.9v2.2C2 16 5 17.4 5 17.4s3.9 1.1 7 .9c3.1-.2 7-.9 7-.9s2.6-1.4 2.6-4.3V10.9c0-1.9-.6-3.7-.9-3.7z" />
-      </svg>
-    </a>
-  </div>
-
-  <!-- Auth nav injected dynamically by auth-nav.js -->
-
-  <!-- Left side controls (Home, About, Stalls, Sponsors) -->
-  <div class="left-controls" aria-hidden="false">
-    <a class="icon-btn active" href="/" aria-label="Home" title="Home">
+  <!-- Left side controls (Home, Sponsors, Stalls, FAQ, About) -->
+  <div class="left-controls" aria-label="Quick navigation">
+    <a class="icon-btn" href="/" aria-label="Home" title="Home">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
         stroke-linejoin="round">
-        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
         <polyline points="9 22 9 12 15 12 15 22" />
       </svg>
     </a>
@@ -581,6 +536,7 @@
     </a>
   </div>
 
+  <!-- Right side social bar -->
   <div class="social-bar" aria-hidden="false">
     <a class="social-btn" href="https://x.com/HackSRM" target="_blank" rel="noopener noreferrer" aria-label="X">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -702,17 +658,6 @@
       update();
     })();
 
-    // Set active nav item based on current path
-    (function setActiveNav() {
-      const items = document.querySelectorAll('.top-glass-tab .tab-btn');
-      const path = location.pathname.replace(/\/+/g, '/');
-      items.forEach(a => {
-        try {
-          const hrefPath = new URL(a.href).pathname.replace(/\/+/g, '/');
-          if (hrefPath === path) a.classList.add('active');
-        } catch (e) { }
-      });
-    })();
 
     // Enhanced video playback with aggressive autoplay
     const video = document.getElementById('bgVideo');
