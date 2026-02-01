@@ -1,7 +1,8 @@
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Orbitron',Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f8fafc,#eef2ff)}
-main{max-width:720px;padding:48px;border-radius:12px;background:white;box-shadow:0 8px 24px rgba(16,24,40,0.08);text-align:center}
-h1{font-size:2rem;color:#0f172a;margin-bottom:12px}
-p{color:#475569;margin-bottom:20px}
-button{background:#6366f1;color:white;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
-pre{margin-top:16px;background:#f1f5f9;padding:12px;border-radius:8px;color:#0f172a;white-space:pre-wrap}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Orbitron',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0b0a1a,#14122b);letter-spacing:0.5px}
+main{max-width:720px;padding:48px;border-radius:12px;background:rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(0,0,0,0.3);text-align:center;border:1px solid rgba(255,255,255,0.08)}
+h1{font-size:2rem;color:#eae8ff;margin-bottom:12px}
+p{color:#b8b5ff;margin-bottom:20px}
+button{background:#6366f1;color:white;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:'Orbitron',sans-serif}
+pre{margin-top:16px;background:rgba(255,255,255,0.05);padding:12px;border-radius:8px;color:#eae8ff;white-space:pre-wrap}

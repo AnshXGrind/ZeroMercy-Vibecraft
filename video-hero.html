@@ -8,12 +8,24 @@
   <title>Infinitus — Tech Fest</title>
   <meta name="theme-color" content="#0b0a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="supabase-url" content="%VITE_SUPABASE_URL%">
   <meta name="supabase-anon-key" content="%VITE_SUPABASE_ANON_KEY%">
   <link rel="manifest" href="/manifest.json">
+  <!-- Critical CSS to prevent FOUC/flickering -->
+  <style>
+    /* Hide body until CSS fully loads */
+    html { visibility: visible; opacity: 1; }
+    .top-tab-container, .left-controls, .social-bar, .top-right-controls {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+  </style>
   <style>
     :root {
       /* Core Backgrounds */
@@ -52,10 +64,11 @@
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: 'Orbitron', system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
       background: var(--bg-primary);
       color: var(--text-primary);
+      letter-spacing: 0.5px;
     }
 
     .hero-section {

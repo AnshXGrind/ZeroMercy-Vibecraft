@@ -7,6 +7,9 @@
   <meta name="supabase-url" content="%VITE_SUPABASE_URL%" />
   <meta name="supabase-anon-key" content="%VITE_SUPABASE_ANON_KEY%" />
   <title>Sign In — Infinitus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0b0a1a;
@@ -18,14 +21,16 @@
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0
+      padding: 0;
+      font-family: 'Orbitron', system-ui, -apple-system, sans-serif !important;
     }
 
     body {
-      font-family: Inter, system-ui, -apple-system, sans-serif;
+      font-family: 'Orbitron', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      min-height: 100vh
+      min-height: 100vh;
+      letter-spacing: 0.5px;
     }
 
     .top-tab-container {
