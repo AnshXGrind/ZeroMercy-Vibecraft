@@ -10,13 +10,19 @@
   <title>Register — Infinitus</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <!-- Critical CSS to prevent FOUC/flickering -->
   <style>
-    html { visibility: visible; opacity: 1; }
-    .top-tab-container, .top-right-controls {
+    html {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .top-tab-container,
+    .top-right-controls {
       visibility: visible !important;
       opacity: 1 !important;
     }
@@ -185,10 +191,12 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.03);
       color: var(--text-primary);
-      font-size: 16px; /* Prevent iOS zoom on focus */
+      font-size: 16px;
+      /* Prevent iOS zoom on focus */
       transition: all 0.3s ease;
       font-family: 'Inter', sans-serif !important;
-      -webkit-appearance: none; /* Remove iOS default styling */
+      -webkit-appearance: none;
+      /* Remove iOS default styling */
       appearance: none;
       /* Improve touch target size on mobile */
       min-height: 44px;
@@ -233,7 +241,8 @@
     }
 
     .submit:focus {
-      outline: none; /* Managed by :focus-visible */
+      outline: none;
+      /* Managed by :focus-visible */
     }
 
     .submit:disabled {
@@ -306,7 +315,7 @@
 <body>
   <div class="top-tab-container">
     <nav class="top-glass-tab">
-      <a class="tab-btn" href="/">HOME</a>
+      <a class="tab-btn" href="/" title="Home">HOME</a>
       <a class="tab-btn" href="/event.html">EVENTS</a>
       <a class="tab-btn" href="/competition.html">COMPETITIONS</a>
       <a class="tab-btn" href="/workshop.html">WORKSHOPS</a>
@@ -459,7 +468,7 @@
             if (!profileResponse.ok) {
               const errorData = await profileResponse.json();
               console.error('Profile API error:', errorData);
-              
+
               // If it's a 404 (API not found), try direct client insert as fallback
               if (profileResponse.status === 404) {
                 console.log('API endpoint not found, attempting direct profile creation...');
@@ -473,7 +482,7 @@
                     phone: phone || null,
                     role: 'user'
                   }]);
-                
+
                 if (profileInsertError) {
                   console.error('Direct profile insert failed:', profileInsertError);
                   throw new Error(profileInsertError.message);
